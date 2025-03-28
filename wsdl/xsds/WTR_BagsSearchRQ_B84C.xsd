@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- File was originally: xsd/8/dev/client_interfaces/xsd/wtr/WTR_BagsSearchRQ.xsd -->
+<!-- edited with XMLSpy v2009 sp1 (http://www.altova.com) by Aodh Curran (Sita Inc Ireland) --><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://sita.aero/WTR_BagsSearchRQ/10/0" xmlns:iata="http://www.iata.org/IATA/2007/00" xmlns:common="http://sita.aero/wtr/common/10/0" targetNamespace="http://sita.aero/WTR_BagsSearchRQ/10/0" elementFormDefault="qualified" version="1.07" id="WTR2009A">
+	<xs:import namespace="http://sita.aero/wtr/common/10/0" schemaLocation="WTR_BagTypes_44BB.xsd"><!-- Originally: WTR_BagTypes.xsd --></xs:import>
+	<xs:import namespace="http://www.iata.org/IATA/2007/00" schemaLocation="IATA_ET_CommonTypes_FA0A.xsd"><!-- Originally: IATA_ET_CommonTypes.xsd --></xs:import>
+	<xs:annotation>
+		<xs:documentation xml:lang="en">This request is used for searching Delayed Bags in WorldTracer</xs:documentation>
+	</xs:annotation>
+	<xs:element name="WTR_BagsSearchRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">This request is used for searching Delayed and Onhand Bags in WorldTracer</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="iata:POS_Type"/>
+				<xs:element name="BagType">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="DELAYED"/>
+							<xs:enumeration value="ONHAND"/>
+							<xs:enumeration value="DAMAGED"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="SearchType" type="common:SearchTypeType">
+					<xs:annotation>
+						<xs:documentation>Indicates wether the requested seach is SIMPLE or ADVANCED search</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="RefStationAirline" type="common:StationAirlineHandlerType" minOccurs="0"/>
+				<xs:element name="RecordStatus" type="common:FileStatusType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>File status</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="HandledOption" type="common:EmptyType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Records created by and for requesting airline at requesting station </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Name" type="common:SearchNameType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>NM/EM - To search records with sound like name or exact name</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="MissingStation" type="common:StationAirlineType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>MS - This is used for searching records with a particular missing station/airline</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Bag" type="common:SearchBagType" minOccurs="0"/>
+				<xs:element name="Itinerary" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:choice minOccurs="0">
+								<xs:element name="FlightUnknown" type="common:EmptyType" minOccurs="0"/>
+								<xs:element name="Flight" minOccurs="0">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="AirlineCode" type="iata:AirlineType"/>
+											<xs:element name="FlightNumber" type="common:FlightNumberType"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:choice>
+							<xs:element name="DateRange" type="common:DateRangeType" minOccurs="0"/>
+							<xs:element name="Route" type="iata:StationType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Status" type="common:StringLength1to58" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>PS - Class of service flown by the passenger</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="FrequentFlyerAirline" type="iata:AirlineType" minOccurs="0"/>
+				<xs:element name="FrequentFlyerID" type="common:StringLength1to25" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>FL - Frequent flyer number valid only for DAH/DDP/DOH</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="TempAddressInd" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>TA - Temporary address indication. Existance of this element indicates TA option in search</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="common:EmptyType">
+								<xs:attribute name="All" type="xs:boolean"/>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="InboxAddress" type="common:InboxAddressType" minOccurs="0"/>
+				<xs:element name="TeletypeAddresses" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="TeletypeAddress" type="iata:TTY_Address" maxOccurs="5"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Email" type="common:EmailType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>SE - Send to email</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AgentID" type="common:StringLength1to12">
+					<xs:annotation>
+						<xs:documentation>AG - Agent Identification</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="PhoneNumber" type="common:StringLength1to20" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>PN - Permanent Phone numbers of the passenger to search by</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="EmailAddress" type="common:EmailType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>EA - Email address of the passenger to search by</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="QuickOnhandOption" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Displays only Quick On-hand files</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="SearchByQOH" type="xs:boolean" default="false">
+							<xs:annotation>
+								<xs:documentation>True for search by QOH only</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="common:WTR_PayloadAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

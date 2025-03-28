@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- File was originally: xsd/60/dev/client_interfaces/xsd/wtr/WTR_DateQuestionnaireSentRQ.xsd -->
+<!-- edited with XMLSpy v2009 sp1 (http://www.altova.com) by Siva (SITA) --><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://sita.aero/WTR_DateQuestionnaireSentRQ/10/0" xmlns:iata="http://www.iata.org/IATA/2007/00" xmlns:common="http://sita.aero/wtr/common/10/0" targetNamespace="http://sita.aero/WTR_DateQuestionnaireSentRQ/10/0" elementFormDefault="qualified" version="0.1" id="WTR2009A">	
+	<xs:import namespace="http://sita.aero/wtr/common/10/0" schemaLocation="WTR_BagTypes_44BB.xsd"><!-- Originally: WTR_BagTypes.xsd --></xs:import>
+	<xs:import namespace="http://www.iata.org/IATA/2007/00" schemaLocation="IATA_ET_CommonTypes_FA0A.xsd"><!-- Originally: IATA_ET_CommonTypes.xsd --></xs:import>
+	<xs:element name="WTR_DateQuestionnaireSentRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Request for updating dates in WTR records - DQS</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<!-- Define other elements required for the specific request -->
+				<xs:element name="POS" type="iata:POS_Type"/>
+				<xs:element name="RecordID" maxOccurs="20">
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="common:RecordIdentifierType">
+								<xs:sequence>
+									<xs:element name="Dates" minOccurs="0">
+										<xs:complexType>
+											<xs:attribute name="QuestionnaireSent" type="xs:date"/>
+											<xs:attribute name="ClaimSent" type="xs:date"/>
+											<xs:attribute name="ClaimReceived" type="xs:date"/>
+											<xs:attribute name="Disposal" type="xs:date"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Claim" minOccurs="0">
+										<xs:complexType>
+											<xs:attributeGroup ref="iata:CurrencyAmountGroup"/>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AgentID" type="common:AlphaNumericStringLength1to12">
+					<xs:annotation>
+						<xs:documentation>AG - Agent Identification</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="common:WTR_PayloadAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

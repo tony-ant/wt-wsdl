@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- File was originally: xsd/82/dev/client_interfaces/xsd/wtr/WTR_FaultStationMishandlingsReportRQ.xsd -->
+<!-- edited with XMLSpy v2012 rel. 2 sp1 (x64) (http://www.altova.com) by Marilyn S Lyons (private) --><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://sita.aero/WTR_FaultStationMishandlingsReportRQ/10/0" xmlns:iata="http://www.iata.org/IATA/2007/00" xmlns:common="http://sita.aero/wtr/common/10/0" targetNamespace="http://sita.aero/WTR_FaultStationMishandlingsReportRQ/10/0" elementFormDefault="qualified" version="1.14" id="WTR2009A">
+	<xs:import namespace="http://sita.aero/wtr/common/10/0" schemaLocation="WTR_BagTypes_44BB.xsd"><!-- Originally: WTR_BagTypes.xsd --></xs:import>
+	<xs:import namespace="http://www.iata.org/IATA/2007/00" schemaLocation="IATA_ET_CommonTypes_FA0A.xsd"><!-- Originally: IATA_ET_CommonTypes.xsd --></xs:import>
+	<xs:element name="WTR_FaultStationMishandlingsReportRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">MRC - provides an analysis of mishandled bags as a percentage of the reported mishandlings</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="iata:POS_Type"/>
+				<xs:element name="ReportOptions">
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="common:ReportsCommonType">
+								<xs:sequence>
+									<xs:element name="Date">
+										<xs:complexType>
+											<xs:attributeGroup ref="common:DateRangeGroup"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="RefStation" type="iata:StationType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>FR - Stations where the files are created at.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="LossReason" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>RL - Loss reason code</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:attribute name="Code" type="common:LossReasonCodeType"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="FaultAirline" type="iata:AirlineType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>FA - Airline responsible for the mishandling of the bag</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="FaultTerminal" type="common:AlphaNumericStringLength1to2" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>FT - Terminal  responsible for the mishandling of the bag</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="RecordType">
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:enumeration value="DELAYED"/>
+											<xs:enumeration value="DAMAGED"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:attribute>
+								<xs:attribute name="Average" type="xs:boolean"/>
+								<xs:attribute name="Comparison" type="xs:boolean"/>
+								<xs:attribute name="Summary" type="xs:boolean"/>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AgentID" type="common:StringLength1to12" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>AG - Agent Identification</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="common:WTR_PayloadAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

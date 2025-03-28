@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- File was originally: xsd/30/dev/client_interfaces/xsd/wtr/WTR_InboxMessageSendRQ.xsd -->
+<!-- edited with XMLSpy v2009 sp1 (http://www.altova.com) by Siva (SITA) --><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://sita.aero/WTR_InboxMessageSendRQ/10/0" xmlns:iata="http://www.iata.org/IATA/2007/00" xmlns:common="http://sita.aero/wtr/common/10/0" targetNamespace="http://sita.aero/WTR_InboxMessageSendRQ/10/0" elementFormDefault="qualified" version="0.1" id="WTR2009A">
+	<xs:import namespace="http://sita.aero/wtr/common/10/0" schemaLocation="WTR_BagTypes_44BB.xsd"><!-- Originally: WTR_BagTypes.xsd --></xs:import>
+	<xs:import namespace="http://www.iata.org/IATA/2007/00" schemaLocation="IATA_ET_CommonTypes_FA0A.xsd"><!-- Originally: IATA_ET_CommonTypes.xsd --></xs:import>
+	<xs:element name="WTR_InboxMessageSendRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Contains request for sending messages to Inbox/action file areas</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<!-- Define other elements required for the specific request -->
+				<xs:element name="POS" type="iata:POS_Type"/>
+				<xs:element name="Destination">
+					<xs:annotation>
+						<xs:documentation>Action file addresses that the message should be sent to</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="InboxAddress" maxOccurs="5">
+								<xs:complexType>
+									<xs:attributeGroup ref="common:InboxAreaAddressAttributes"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="HandledOption" type="xs:boolean" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>/H handled airline option</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="OriginStation" type="iata:StationType"/>
+				<xs:element name="Message" type="common:StringLength1to3000">
+					<xs:annotation>
+						<xs:documentation>Up to 3000 char message</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="RecordIDs" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="RecordID" type="common:RecordIdentifierType" maxOccurs="4"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="MessageDelivery" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>DP - Delayed PXF Date and Time</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="common:DateRangeType">
+								<xs:attribute name="Time" type="xs:string" use="required"/>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="TeletypeAddresses" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>TX - Optional teletype addresses</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="TeletypeAddress" type="iata:TTY_Address" maxOccurs="5"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Email" type="common:EmailType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>SE - Email</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AgentID" type="common:StringLength1to12">
+					<xs:annotation>
+						<xs:documentation>AG - Agent Identification</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="common:WTR_PayloadAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

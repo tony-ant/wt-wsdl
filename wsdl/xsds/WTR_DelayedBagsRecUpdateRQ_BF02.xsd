@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- File was originally: xsd/42/dev/client_interfaces/xsd/wtr/WTR_DelayedBagsRecUpdateRQ.xsd -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://sita.aero/WTR_DelayedBagsRecUpdateRQ/10/0" xmlns:iata="http://www.iata.org/IATA/2007/00" xmlns:common="http://sita.aero/wtr/common/10/0" targetNamespace="http://sita.aero/WTR_DelayedBagsRecUpdateRQ/10/0" elementFormDefault="qualified" version="0.001" id="WTR2009A">
+	<xs:import namespace="http://sita.aero/wtr/common/10/0" schemaLocation="WTR_BagTypes_44BB.xsd"><!-- Originally: WTR_BagTypes.xsd --></xs:import>
+	<xs:import namespace="http://www.iata.org/IATA/2007/00" schemaLocation="IATA_ET_CommonTypes_FA0A.xsd"><!-- Originally: IATA_ET_CommonTypes.xsd --></xs:import>
+	<!-- This schema contains a request to update Delayed bags in the WorldTracer system. -->
+	<xs:element name="WTR_DelayedBagsRecUpdateRQ" type="WTR_DelayedBagsRecUpdateRQType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Request for Updating Delayed bag record in WTR</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="WTR_RetiredDelayedBagsUpdateRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Request for Updating retired Delayed bag record in WTR. Note that the Delayed bag update schema is being re used for retired and hence contains all elements valid for Delayed bag, though not valid for retired record. Elements not valid for retired record will be ignored with no warnings and hence clients are expected to send data that is valid.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="WTR_DelayedBagsRecUpdateRQType">
+					<xs:sequence>
+						<xs:element name="Date" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>Date of the Flight</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="WTR_DelayedBagsRecUpdateRQType">
+		<xs:sequence>
+			<!-- Define other elements required for the specific request -->
+			<xs:element name="POS" type="iata:POS_Type"/>
+			<xs:element name="RecordReference" type="common:RecordReferenceType"/>
+			<xs:element name="DelayedBagGroup" type="common:DelayedBagGroupAmendType" minOccurs="0"/>
+			<xs:element name="Passengers" type="common:PassengerItineraryAmendType" minOccurs="0"/>
+			<xs:element name="DesignatedLocator" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DL - Used to record members front end system record locator</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="common:StringLength0to12">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AdditionalInfo" type="common:AdditionalInfoAmendType" minOccurs="0"/>
+			<xs:element name="Claim" type="common:DelayedClaimAmendType" minOccurs="0"/>
+			<xs:element name="HandledAirlineCopyInd" type="common:HandledAirlineCopyIndType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>HC - Indicator to specify if a copy of the request required to be sent to the hendled airline</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LZControlDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>LZ - LZ control date</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CrossReferenceRecords" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>XR - Contains reference to a related records</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence minOccurs="0">
+						<xs:element name="CrossReferenceRecord" type="common:RecordIdentifierType" maxOccurs="5"/>
+					</xs:sequence>
+					<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="InboxAddress" type="common:InboxAddressType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>XF - Action file(Inbox) address</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TeletypeAddresses" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>TX - Teletype address</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="TeletypeAddress" type="iata:TTY_Address" maxOccurs="10"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DefinedPrompt" type="common:DefinedPromptType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DP - Defined Prompt</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AgentID" type="common:StringLength1to12">
+				<xs:annotation>
+					<xs:documentation>AG - Agent Identification</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attributeGroup ref="common:WTR_PayloadAttributes"/>
+	</xs:complexType>
+</xs:schema>
