@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- File was originally: xsd/107/dev/client_interfaces/xsd/wtr/WTR_MatchClaimAmountOverrideRQ.xsd -->
+<!-- edited with XMLSpy v2012 rel. 2 sp1 (x64) (http://www.altova.com) by Marilyn S Lyons (private) --><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://sita.aero/WTR_MatchClaimAmountOverrideRQ/10/0" xmlns:iata="http://www.iata.org/IATA/2007/00" xmlns:common="http://sita.aero/wtr/common/10/0" targetNamespace="http://sita.aero/WTR_MatchClaimAmountOverrideRQ/10/0" elementFormDefault="qualified" version="1.14" id="WTR2009A">
+	<xs:import namespace="http://sita.aero/wtr/common/10/0" schemaLocation="WTR_BagTypes_44BB.xsd"><!-- Originally: WTR_BagTypes.xsd --></xs:import>
+	<xs:import namespace="http://www.iata.org/IATA/2007/00" schemaLocation="IATA_ET_CommonTypes_FA0A.xsd"><!-- Originally: IATA_ET_CommonTypes.xsd --></xs:import>
+	<xs:element name="WTR_MatchClaimAmountOverrideRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">MCO - initiates matching for a specific file and allows the user to override the user selected match inhibit amount in stored files</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="iata:POS_Type"/>
+				<xs:element name="RecordID" type="common:RecordIdentifierType"/>
+				<xs:element name="InboxAddress" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>XF - Action file(Inbox) address</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attributeGroup ref="common:InboxAreaAddressAttributes"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="TeletypeAddress" type="iata:TTY_Address" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>TX - Teletype address</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AgentID" type="common:StringLength1to12">
+					<xs:annotation>
+						<xs:documentation>AG - Agent Identification</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="common:WTR_PayloadAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

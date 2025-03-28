@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- File was originally: xsd/149/dev/client_interfaces/xsd/wtr/WTR_MembersModuleListReadRS.xsd -->
+<!-- edited with XMLSpy v2016 rel. 2 sp1 (x64) (http://www.altova.com) by Brent Crouse (SITA) --><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://sita.aero/WTR_MembersModuleListReadRS/10/0" xmlns:iata="http://www.iata.org/IATA/2007/00" xmlns:common="http://sita.aero/wtr/common/10/0" targetNamespace="http://sita.aero/WTR_MembersModuleListReadRS/10/0" elementFormDefault="qualified" version="1.08" id="WTR2009A">
+	<xs:import namespace="http://sita.aero/wtr/common/10/0" schemaLocation="WTR_CommonTypes_8D29.xsd"><!-- Originally: WTR_CommonTypes.xsd --></xs:import>
+	<xs:import namespace="http://www.iata.org/IATA/2007/00" schemaLocation="IATA_CommonTypes_D729.xsd"><!-- Originally: IATA_CommonTypes.xsd --></xs:import>
+	<xs:element name="WTR_MembersModuleListReadRS">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">This contians response for Membership List</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="Success" type="iata:SuccessType">
+						<xs:annotation>
+							<xs:documentation xml:lang="en"> Standard way to indicate successful processing of an IATA message. Returning an empty element of this type indicates success. </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Warnings" type="iata:WarningsType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Standard way to indicate successful processing of an IATA message, but one in which warnings are generated. </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Members" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="Member" maxOccurs="unbounded">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="CustomerCode" type="common:CustomerCodeType"/>
+											<xs:element name="Name" type="xs:string" minOccurs="0"/>
+											<xs:element name="Headquarters" type="xs:string" minOccurs="0"/>
+											<xs:element name="Modules">
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="Tracing">
+															<xs:complexType>
+																<xs:simpleContent>
+																	<xs:extension base="common:MembershipStatus">
+																		<xs:attribute name="Extended" type="xs:boolean"/>
+																	</xs:extension>
+																</xs:simpleContent>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="Management" type="common:MembershipStatus"/>
+														<xs:element name="Claims" type="common:MembershipStatus"/>
+														<xs:element name="LZ" type="common:MembershipStatus"/>
+														<xs:element name="Internet" type="common:MembershipStatus"/>
+													</xs:sequence>
+													<xs:attribute name="CRT" type="xs:boolean" use="required"/>
+												</xs:complexType>
+											</xs:element>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:element name="Errors" type="iata:ErrorsType">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">A collection of errors that occurred during the processing of a message.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:attributeGroup ref="common:WTR_PayloadAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
