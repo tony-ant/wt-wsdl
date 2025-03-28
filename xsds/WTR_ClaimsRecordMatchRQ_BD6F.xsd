@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- File was originally: xsd/106/dev/client_interfaces/xsd/wtr/WTR_ClaimsRecordMatchRQ.xsd -->
+<!-- edited with XMLSpy v2014 (x64) (http://www.altova.com) by David McGowan (SITA) --><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://sita.aero/WTR_ClaimsRecordMatchRQ/10/0" xmlns:iata="http://www.iata.org/IATA/2007/00" xmlns:common="http://sita.aero/wtr/common/10/0" targetNamespace="http://sita.aero/WTR_ClaimsRecordMatchRQ/10/0" elementFormDefault="qualified" version="1.14" id="WTR2009A">
+	<xs:import namespace="http://sita.aero/wtr/common/10/0" schemaLocation="WTR_BagTypes_44BB.xsd"><!-- Originally: WTR_BagTypes.xsd --></xs:import>
+	<xs:import namespace="http://www.iata.org/IATA/2007/00" schemaLocation="IATA_CommonTypes_D729.xsd"><!-- Originally: IATA_CommonTypes.xsd --></xs:import>
+	<xs:element name="WTR_ClaimsRecordMatchRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">MAC - allows user to begin matching using an existing AHL file in claims investigation. MAC can also be used to retrieve a list of existing claim files that meet certain criteria.
+			MDC - allows the User to rematch an existing Claims Investigation DPR file by entry of a file reference number and other optional match criteria. The MDC can also be used to retrieve a list of existing claim files that meet specific match criteria.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="iata:POS_Type"/>
+				<xs:element name="RecordID" type="common:RecordIdentifierType"/>
+				<xs:element name="SearchOptions" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Name" type="common:AlphaLength2to16" minOccurs="0"/>
+							<xs:element name="GeographicSearchArea" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>GS - Geographic search area</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="2"/>
+										<xs:maxLength value="30"/>
+										<xs:pattern value="[a-zA-Z]{2,30}"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="SearchableAirlines" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>SA - Searchable airlines</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="SearchableAirline" type="iata:AirlineType" maxOccurs="4"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="SearchableCountries" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>SC - Searchable countries</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="2"/>
+										<xs:maxLength value="30"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="InboxAddress" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>XF - Action file(Inbox) address</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attributeGroup ref="common:InboxAreaAddressAttributes"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="TeletypeAddress" type="iata:TTY_Address" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>TX - Teletype address</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AgentID" type="common:StringLength1to12">
+					<xs:annotation>
+						<xs:documentation>AG - Agent Identification</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="common:WTR_PayloadAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

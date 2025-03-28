@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- File was originally: xsd/151/dev/client_interfaces/xsd/wtr/WTR_DamagedBagsRecUpdateCloseRQ.xsd -->
+<!-- edited with XMLSpy v2017 rel. 3 sp1 (x64) (http://www.altova.com) by David McGowan (SITA) --><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://sita.aero/WTR_DamagedBagsRecUpdateCloseRQ/10/0" xmlns:iata="http://www.iata.org/IATA/2007/00" xmlns:common="http://sita.aero/wtr/common/10/0" targetNamespace="http://sita.aero/WTR_DamagedBagsRecUpdateCloseRQ/10/0" elementFormDefault="qualified" version="0.1" id="WTR2009A">
+	<xs:import namespace="http://sita.aero/wtr/common/10/0" schemaLocation="WTR_BagTypes_44BB.xsd"><!-- Originally: WTR_BagTypes.xsd --></xs:import>
+	<xs:import namespace="http://www.iata.org/IATA/2007/00" schemaLocation="IATA_ET_CommonTypes_FA0A.xsd"><!-- Originally: IATA_ET_CommonTypes.xsd --></xs:import>
+	<xs:element name="WTR_DamagedBagsRecUpdateCloseRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">CDP - Request for updating and then closing a damaged bag record, once all mandatories are met</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<!-- Define other elements required for the specific request -->
+				<xs:element name="POS" type="iata:POS_Type"/>
+				<xs:element name="RecordReference" type="common:RecordReferenceType"/>
+				<xs:element name="Passengers" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Names" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>NM - Passnger surnames and other names</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Name" type="common:AlphaLength2to16" maxOccurs="3"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Claim">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Payments">
+								<xs:annotation>
+									<xs:documentation>CS - All the costs paid to the passenger. Delete of CS not allowed</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="PassengerPayment" type="common:PassengerPaymentAmendType" maxOccurs="6"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="FaultStation" type="iata:StationType">
+								<xs:annotation>
+									<xs:documentation>FS - Station responsible for the mishandling of the bag</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="LossReasonCode" type="common:LossReasonCodeType">
+								<xs:annotation>
+									<xs:documentation>RL - Contains comments regarding the reason for loss of the baggage</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="CostRemarks" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>CR - Contians an explanation of the cost payed to passenger (CS element)</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="TextLine" type="common:StringLength1to58" maxOccurs="6"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="FaultTerminal" type="common:AlphaNumericStringLength1to2" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>FT - Terminal  responsible for the mishandling of the bag</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="LossComments" type="common:StringLength1to58" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>RC - Contains comments regarding the reason for the loss of baggage</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DeliveryInfo" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DeliveryAddress" type="common:WTR_AddressAmendType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>DA - Delivery address required for baggage delivery. Delete of address line not allowed.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="DeliveredTime" type="xs:dateTime" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>DD - Date and time a bag is delivered</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="BagReceived" type="common:BagReceivedType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>DR - Date and time the bag was received at the tracing station for forwarding to the passenger.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="DeliveryWeight" type="common:StringLength1to9" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>DW - Number and weight of the bags being delivered to the passenger</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="LocalDlvInfo" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>LD - Contains local delivery information and special instructions. Delete of LD not allowed.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="DlvInfo" type="common:StringLength0to58AmendType" maxOccurs="2"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SupplimentalInfo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>SI - Supplimental info. Delete SI not allowed</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="TextLine" type="common:StringLength0to58AmendType" maxOccurs="2"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="CrossReferenceRecords" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>XR - Contians reference to a related records</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CrossReferenceRecord" type="common:RecordIdentifierType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="HandledAirlineCopyInd" type="common:HandledAirlineCopyIndType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>HC - Indicator to specify if a copy of the request required to be sent to the hendled airline</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AgentID" type="common:StringLength1to12">
+					<xs:annotation>
+						<xs:documentation>AG - Agent Identification</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="common:WTR_PayloadAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

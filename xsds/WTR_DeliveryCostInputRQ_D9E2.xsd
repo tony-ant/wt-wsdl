@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- File was originally: xsd/43/dev/client_interfaces/xsd/wtr/WTR_DeliveryCostInputRQ.xsd -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://sita.aero/WTR_DeliveryCostInputRQ/10/0" xmlns:iata="http://www.iata.org/IATA/2007/00" xmlns:common="http://sita.aero/wtr/common/10/0" targetNamespace="http://sita.aero/WTR_DeliveryCostInputRQ/10/0" elementFormDefault="qualified" version="0.1" id="WTR2009A">
+	<xs:import namespace="http://sita.aero/wtr/common/10/0" schemaLocation="WTR_BagTypes_44BB.xsd"><!-- Originally: WTR_BagTypes.xsd --></xs:import>
+	<xs:import namespace="http://www.iata.org/IATA/2007/00" schemaLocation="IATA_ET_CommonTypes_FA0A.xsd"><!-- Originally: IATA_ET_CommonTypes.xsd --></xs:import>
+	<xs:element name="WTR_DeliveryCostInputRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Request for rcording Delivery costs in WTR - DLV input</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<!-- Define other elements required for the specific request -->
+				<xs:element name="POS" type="iata:POS_Type"/>
+				<xs:element name="CostInput">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="StationDlvCost" maxOccurs="20">
+								<xs:complexType>
+									<xs:attribute name="StationCode" type="iata:StationType" use="required"/>
+									<xs:attributeGroup ref="iata:CurrencyAmountGroup"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="Date" type="xs:date" use="required"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AgentID" type="common:StringLength1to12">
+					<xs:annotation>
+						<xs:documentation>AG - Agent Identification</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="common:WTR_PayloadAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

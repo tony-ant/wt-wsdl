@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- File was originally: xsd/116/dev/client_interfaces/xsd/wtr/WTR_FileActivityReportRQ.xsd -->
+<!-- edited with XMLSpy v2013 rel. 2 sp2 (x64) (http://www.altova.com) by catherine.paul (SITA) --><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://sita.aero/WTR_FileActivityReportRQ/10/0" xmlns:iata="http://www.iata.org/IATA/2007/00" xmlns:common="http://sita.aero/wtr/common/10/0" targetNamespace="http://sita.aero/WTR_FileActivityReportRQ/10/0" elementFormDefault="qualified" version="0.1" id="WTR2009A">
+	<xs:import namespace="http://sita.aero/wtr/common/10/0" schemaLocation="WTR_BagTypes_44BB.xsd"><!-- Originally: WTR_BagTypes.xsd --></xs:import>
+	<xs:import namespace="http://www.iata.org/IATA/2007/00" schemaLocation="IATA_ET_CommonTypes_FA0A.xsd"><!-- Originally: IATA_ET_CommonTypes.xsd --></xs:import>
+	<xs:element name="WTR_FileActivityReportRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">WFA - Gives you a report of the number of worldtracer transactions entered by station or for the entire airline</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="iata:POS_Type"/>
+				<xs:element name="ReportOptions">
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="common:ReportsCommonType">
+								<xs:sequence>
+									<xs:element name="Date" minOccurs="1">
+										<xs:complexType>
+											<xs:attributeGroup ref="common:DateRangeGroup"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="MissingStation" type="common:ReportStationAirlineType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>MS - Missing station and airline</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="Summary" type="xs:boolean"/>
+								<xs:attribute name="TracingAndManagement" type="xs:boolean"/>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AgentID" type="common:StringLength1to12" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>AG - Agent Identification</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="common:WTR_PayloadAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

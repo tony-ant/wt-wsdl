@@ -1,0 +1,4563 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- File was originally: xsd/138/dev/client_interfaces/xsd/wtr/WTR_CommonTypes.xsd -->
+<!-- edited with XMLSpy v2017 rel. 3 sp1 (x64) (http://www.altova.com) by David McGowan (SITA) --><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://sita.aero/wtr/common/10/0" xmlns:iata="http://www.iata.org/IATA/2007/00" targetNamespace="http://sita.aero/wtr/common/10/0" elementFormDefault="qualified" version="1.12" id="WTR2009A">
+	<xs:include schemaLocation="WTR_SimpleTypes_8A99.xsd"><!-- Originally: WTR_SimpleTypes.xsd --></xs:include>
+	<xs:import namespace="http://www.iata.org/IATA/2007/00" schemaLocation="IATA_ET_CommonTypes_FA0A.xsd"><!-- Originally: IATA_ET_CommonTypes.xsd --></xs:import>
+	<xs:complexType name="AddressSeqType">
+		<xs:simpleContent>
+			<xs:extension base="StringLength1to58">
+				<xs:attribute name="Seq" use="optional">
+					<xs:annotation>
+						<xs:documentation>Defines sequence number</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="AmendBagDescType">
+		<xs:annotation>
+			<xs:documentation>Maximum of the total elements should be 3. 1 MtrlElement + 2 OtherElement or 3 OtherElement</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="MtrlElement" type="AmendBagMatrlType" minOccurs="0"/>
+			<xs:element name="OtherElement" type="AmendBagElmsType" minOccurs="2" maxOccurs="3"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:attributeGroup name="AmendFPGroup">
+		<xs:annotation>
+			<xs:documentation>Defines sequence number and if a delete of an element is required</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="Seq" use="optional">
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="1"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="AmendGroup">
+		<xs:annotation>
+			<xs:documentation>Defines seuqnce number and if a delete of an elment is required</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="Seq" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="1"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="DGroup">
+		<xs:annotation>
+			<xs:documentation>Defines sequence number and if a delete of an element is required</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="Seq" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="1"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="DisplayGroup">
+		<xs:annotation>
+			<xs:documentation>Defines sequence number and if an element is confidential</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="Seq" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="1"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="Confidential" type="xs:boolean" use="optional" default="false"/>
+	</xs:attributeGroup>
+	<xs:complexType name="AmountType">
+		<xs:attributeGroup ref="iata:CurrencyAmountGroup"/>
+	</xs:complexType>
+	<xs:complexType name="ARNK_SegmentType">
+		<xs:annotation>
+			<xs:documentation>FD3 - Contains ARNK (ground transfer) and Route</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="OriginDestination" type="OriginDestinationType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BagDeliveryType">
+		<xs:annotation>
+			<xs:documentation>Contains information about the delivery of a particular bag</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DeliveredTime" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DD - Date and time a bag is delivered</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Status" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="OutForDelivery" type="StringLength0to58" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>OF - Out for delivery bag status</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Delivered" type="StringLength0to58" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>OD - Delivered bag status</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="UnableToDeliver" type="StringLength0to58" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>UN - Unable to deliver bag status</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="TrackingUpdate" type="StringLength0to58" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>UP - Status indicatign a tracking update</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BagReceived" type="BagReceivedType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DR - Date and time the bag was received at the tracing station for forwarding to the passenger.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BagDescType">
+		<xs:annotation>
+			<xs:documentation>Maximum of the total elements should be 3. 1 MtrlElement + 2 OtherElement or 3 OtherElement</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="MtrlElement" type="BagMatrlType" minOccurs="0"/>
+			<xs:element name="OtherElement" type="BagElmsType" minOccurs="2" maxOccurs="3"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BagReceivedType">
+		<xs:annotation>
+			<xs:documentation>DR - Date, time and station the bag was received at the tracing station for forwarding to the passenger. This replaces the older element BagReceivedDate.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="Date" type="xs:dateTime"/>
+		<xs:attribute name="Station" type="iata:StationType"/>
+	</xs:complexType>
+	<xs:complexType name="BagRecordSummaryType">
+		<xs:annotation>
+			<xs:documentation>Contins a summary of a bag record</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="RecordIdentifier" type="RecordIdentifierType"/>
+			<xs:element name="Status" type="RecordStatus"/>
+			<xs:element name="Names" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Name" type="NameType" maxOccurs="10"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Initials" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>IT - Initials on the bag or passengers full initials</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Intial" type="InitialType" maxOccurs="3"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="OriginalBags" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Bag" type="BagSummaryType" maxOccurs="18"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RushBags" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Bag" type="BagSummaryType" maxOccurs="18"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LossReasonCode" type="LossReasonCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>RL - Reason for loss of the baggage</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CreateDate" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Creation Date Time</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FurtherInfo" type="StringLength1to58" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>FI - Contians further info about where the bag is located</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TempAddress" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>TA - Temporary address of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Address" type="WTR_AddressAmendType" minOccurs="0"/>
+						<xs:element name="ValidityDate" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>DV - Date till the temp address is valid.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:dateTime">
+										<xs:attribute name="Delete" type="xs:boolean" default="false"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="TempPhones" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>TP - Temporary phone numbers of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Phone" type="StringLength1to20" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AgentID" type="StringLength1to12" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>AG - Agent Identification</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BagSummaryType">
+		<xs:annotation>
+			<xs:documentation>Contians summary of a bag</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="BagTag" type="BagTagType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>TN</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ColorType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CT</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="ColorCode" type="ColorCodeType"/>
+					<xs:attribute name="TypeCode" type="BagTypeCodeType"/>
+					<xs:attribute name="Suspended" type="xs:boolean"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="FlightDateOrARNK" type="FlightOptionalDateOrARNKType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>FD</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BagTagAmendType">
+		<xs:sequence minOccurs="0">
+			<xs:element name="AirlineCode" type="iata:AirlineType" minOccurs="0"/>
+			<xs:element name="LicenseNumber" type="LicenseNumberType" minOccurs="0"/>
+			<xs:element name="TagSequence" type="TagSequenceType"/>
+		</xs:sequence>
+		<xs:attribute name="Suspended" type="xs:boolean"/>
+		<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+	</xs:complexType>
+	<xs:complexType name="BagTagType">
+		<xs:annotation>
+			<xs:documentation>Contains Bag Tag type details</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AirlineCode" type="iata:AirlineType" minOccurs="0"/>
+			<xs:element name="LicenseNumber" type="LicenseNumberType" minOccurs="0"/>
+			<xs:element name="TagSequence" type="TagSequenceType"/>
+		</xs:sequence>
+		<xs:attribute name="Suspended" type="xs:boolean"/>
+	</xs:complexType>
+	<xs:complexType name="BagTagDisplayType">
+		<xs:sequence minOccurs="0">
+			<xs:element name="AirlineCode" type="iata:AirlineType" minOccurs="0"/>
+			<xs:element name="LicenseNumber" type="LicenseNumberType" minOccurs="0"/>
+			<xs:element name="TagSequence" type="TagSequenceType"/>
+		</xs:sequence>
+		<xs:attribute name="Suspended" type="xs:boolean"/>
+		<xs:attribute name="Confidential" type="xs:boolean" use="optional" default="false"/>
+	</xs:complexType>
+	<xs:attributeGroup name="BIR_CreateAttributes">
+		<xs:attribute name="Type" type="CreateActionType" use="optional" default="CREATE"/>
+		<xs:attribute name="Closed" type="xs:boolean" use="optional"/>
+		<xs:attribute name="Suspended" type="xs:boolean" use="optional"/>
+	</xs:attributeGroup>
+	<xs:complexType name="BusinessAddressType">
+		<xs:complexContent>
+			<xs:extension base="WTR_AddressType">
+				<xs:sequence>
+					<xs:element name="CompanyName" type="StringLength1to58" minOccurs="0"/>
+					<xs:element name="Suite" type="StringLength1to12" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BusinessAddressDisplayType">
+		<xs:complexContent>
+			<xs:extension base="WTR_AddressDisplayType">
+				<xs:sequence>
+					<xs:element name="CompanyName" minOccurs="0">
+						<xs:complexType>
+							<xs:simpleContent>
+								<xs:extension base="StringLength0to58">
+									<xs:attribute name="Confidential" type="xs:boolean"/>
+								</xs:extension>
+							</xs:simpleContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Suite" minOccurs="0">
+						<xs:complexType>
+							<xs:simpleContent>
+								<xs:extension base="StringLength0to12">
+									<xs:attribute name="Confidential" type="xs:boolean"/>
+								</xs:extension>
+							</xs:simpleContent>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ClaimAmendType">
+		<xs:annotation>
+			<xs:documentation>Contains the claim data</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ClaimAmount" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CA - Contains the passeneger estimated value of the lost or damaged items. Can hava value or unknown</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice minOccurs="0">
+						<xs:element name="Unknown" type="EmptyType"/>
+						<xs:element name="Amount" type="AmountType"/>
+					</xs:choice>
+					<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CostRemarks" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CR - Contains an explanation of the cost payed to passenger (CS element)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="TextLine" type="StringLength0to58AmendType" maxOccurs="6"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PassengerPayments" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CS - All the costs paid to the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PassengerPayment" type="PassengerPaymentAmendType" maxOccurs="6"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ClaimDate" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DC - Contains the date that the completed claim form is received</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:date">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DateNotified" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DN - Date the claims deparment was notified</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:date">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="QuestionnaireDate" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DQ - Questionnaire date</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:date">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="FaultStationCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>FS - Station responsible for the mishandling of the bag</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="AlphaLength0to4">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="FaultAirline" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>FA - Station responsible for the mishandling of the bag</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="AirlineAmendType">
+							<xs:attribute name="Delete" type="xs:boolean"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="FaultTerminal" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>FT - Terminal  responsible for the mishandling of the bag</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="AlphaNumericStringLength0to2">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Insurance" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>IN - Indicates whether the passenger has baggage insurance</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Value" type="YesNoType"/>
+					<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LiabilityTag" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>LT - Liability tag</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="EmptyType">
+							<xs:attribute name="Value" type="YesNoType"/>
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="MissingBags" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>MB - Contains number of bags the claimant reports missing</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="NumericLength2">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PartnerCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PC - Contains the carrier code of the code share partner</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice minOccurs="0">
+						<xs:element name="CarrierCode">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="[a-zA-Z0-9]{2,3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="None" type="EmptyType"/>
+					</xs:choice>
+					<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LossComments" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>RC - Contains comments regarding the reason for the loss of baggage</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to58">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ClaimDisplayType">
+		<xs:annotation>
+			<xs:documentation>Contains the claim data</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ClaimAmount" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CA - Contains the passeneger estimated value of the lost or damaged items. Can hava value or unknown</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice minOccurs="0">
+						<xs:element name="Unknown" type="EmptyType"/>
+						<xs:element name="Amount" type="AmountType"/>
+					</xs:choice>
+					<xs:attribute name="Confidential" type="xs:boolean" use="optional" default="false"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CostRemarks" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CR - Contains an explanation of the cost payed to passenger (CS element)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="TextLine" type="StringLength0to58DisplayType" maxOccurs="6"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PassengerPayments" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CS - All the costs paid to the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PassengerPayment" type="PassengerPaymentDisplayType" maxOccurs="6"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ClaimDate" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DC - Contains the date that the completed claim form is received</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:date">
+							<xs:attribute name="Confidential" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DateNotified" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DN - Date the claims deparment was notified</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:date">
+							<xs:attribute name="Confidential" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="QuestionnaireDate" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DQ - Questionnaire date</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:date">
+							<xs:attribute name="Confidential" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="FaultStationCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>FS - Station responsible for the mishandling of the bag</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="AlphaLength0to4">
+							<xs:attribute name="Confidential" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="FaultAirline" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>FA - Station responsible for the mishandling of the bag</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="AirlineAmendType">
+							<xs:attribute name="Confidential" type="xs:boolean"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="FaultTerminal" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>FT - Terminal  responsible for the mishandling of the bag</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="AlphaNumericStringLength0to2">
+							<xs:attribute name="Confidential" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Insurance" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>IN - Indicates whether the passenger has baggage insurance</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Value" type="YesNoType"/>
+					<xs:attribute name="Confidential" type="xs:boolean" use="optional" default="false"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LiabilityTag" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>LT - Liability tag</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="EmptyType">
+							<xs:attribute name="Value" type="YesNoType"/>
+							<xs:attribute name="Confidential" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="MissingBags" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>MB - Contains number of bags the claimant reports missing</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="NumericLength2">
+							<xs:attribute name="Confidential" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PartnerCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PC - Contains the carrier code of the code share partner</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice minOccurs="0">
+						<xs:element name="CarrierCode">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="[a-zA-Z0-9]{2,3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="None" type="EmptyType"/>
+					</xs:choice>
+					<xs:attribute name="Confidential" type="xs:boolean" use="optional" default="false"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LossComments" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>RC - Contains comments regarding the reason for the loss of baggage</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to58">
+							<xs:attribute name="Confidential" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ClaimsInvestigationType">
+		<xs:annotation>
+			<xs:documentation>Contains the claim data</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ClaimAmount" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CA - Contains the passeneger estimated value of the lost or damaged items. Can hava value or unknown</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="Unknown" type="EmptyType"/>
+						<xs:element name="Amount">
+							<xs:complexType>
+								<xs:attributeGroup ref="iata:CurrencyAmountGroup"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ClaimsReferral" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CM - Claims referral is used to indicate whether the file has been referred to the claims manager</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="[a-zA-Z0-9]{1,2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CostRemarks" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CR - Contians an explanation of the cost payed to passenger (CS element)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="TextLine" type="StringLength1to58" maxOccurs="6"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PassengerPayments" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CS - All the costs paid to the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PassengerPayment" type="PassengerPaymentType" maxOccurs="6"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ClaimsStatus" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SF - Status of file</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="OPEN-WAITING"/>
+						<xs:enumeration value="OPEN-LEGAL"/>
+						<xs:enumeration value="OPEN-NEGOTIATING"/>
+						<xs:enumeration value="CLOSED-PAID"/>
+						<xs:enumeration value="CLOSED-DENIED"/>
+						<xs:enumeration value="CLOSED-CONTESTED"/>
+						<xs:enumeration value="USER-DEFINED-X"/>
+						<xs:enumeration value="USER-DEFINED-Y"/>
+						<xs:enumeration value="USER-DEFINED-Z"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ExcessValue" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>XV - Additional value the claimant declared for thier baggage and contents</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attributeGroup ref="iata:CurrencyAmountGroup"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ClaimsInvestigationDisplayType">
+		<xs:annotation>
+			<xs:documentation>Contains the claim data</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ClaimAmount" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CA - Contains the passeneger estimated value of the lost or damaged items. Can hava value or unknown</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice minOccurs="0">
+						<xs:element name="Unknown" type="EmptyType"/>
+						<xs:element name="Amount">
+							<xs:complexType>
+								<xs:attributeGroup ref="iata:CurrencyAmountGroup"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+					<xs:attribute name="Confidential" type="xs:boolean"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ClaimsReferral" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CM - Claims referral is used to indicate whether the file has been referred to the claims manager</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="Confidential" type="xs:boolean"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CostRemarks" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CR - Contians an explanation of the cost payed to passenger (CS element)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="TextLine" type="StringLength0to58DisplayType" maxOccurs="6"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PassengerPayments" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CS - All the costs paid to the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PassengerPayment" type="PassengerPaymentDisplayType" maxOccurs="6"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ClaimsStatus" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SF - Status of file</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="OPEN-WAITING"/>
+						<xs:enumeration value="OPEN-LEGAL"/>
+						<xs:enumeration value="OPEN-NEGOTIATING"/>
+						<xs:enumeration value="CLOSED-PAID"/>
+						<xs:enumeration value="CLOSED-DENIED"/>
+						<xs:enumeration value="CLOSED-CONTESTED"/>
+						<xs:enumeration value="USER-DEFINED-X"/>
+						<xs:enumeration value="USER-DEFINED-Y"/>
+						<xs:enumeration value="USER-DEFINED-Z"/>
+						<xs:enumeration value="CONFIDENTIAL"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ExcessValue" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>XV - Additional value the claimant declared for thier baggage and contents</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attributeGroup ref="iata:CurrencyAmountGroup"/>
+					<xs:attribute name="Confidential" type="xs:boolean"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ClaimType">
+		<xs:annotation>
+			<xs:documentation>Contains the claim data</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ClaimAmount" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CA - Contains the passeneger estimated value of the lost or damaged items. Can hava value or unknown</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="Unknown" type="EmptyType"/>
+						<xs:element name="Amount">
+							<xs:complexType>
+								<xs:attributeGroup ref="iata:CurrencyAmountGroup"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CostRemarks" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CR - Contians an explanation of the cost payed to passenger (CS element)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="TextLine" type="AddressSeqType" maxOccurs="6"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PassengerPayments" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CS - All the costs paid to the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PassengerPayment" type="PassengerPaymentType" maxOccurs="6"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ClaimDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DC - Contains the date that the completed claim form is received</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DateNotified" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DN - Date the claims deparment was notified</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QuestionnaireDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DQ - Quesstionnaire date</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FaultStationCode" type="iata:StationType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>FS - Station responsible for the mishandling of the bag</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FaultAirline" type="iata:AirlineType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>FA - Airline responsible for the mishandling of the bag</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FaultTerminal" type="AlphaNumericStringLength1to2" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>FT - Terminal  responsible for the mishandling of the bag</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Insurance" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>IN - Indicates whether the passenger has baggage insurance</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Value" type="YesNoType"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LiabilityTag" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>LT - Liability tag</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Value" type="YesNoType"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="MissingBags" type="NumericLength2" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>MB - Contains number of bags the claimant reports missing</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PartnerCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PC - Contins the carrier code of the code share partner</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="CarrierCode">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="[a-zA-Z0-9]{2,3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="None" type="EmptyType"/>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LossComments" type="StringLength1to58" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>RC - Contains comments regarding the reason for the loss of baggage</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CLZAuthorityType">
+		<xs:sequence>
+			<xs:element name="HandlerCode">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="[A-Z0-9]{2}|[0-9]{3}|[A-Z]{3}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="HandlerType">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="CALL CENTER"/>
+						<xs:enumeration value="LZ HANDLER"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TransactionCode" maxOccurs="20">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="[A-Z]{3}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CLZAuthoritiesType">
+		<xs:sequence>
+			<xs:element name="CLZAuthority" type="CLZAuthorityType" minOccurs="0" maxOccurs="5"/>
+		</xs:sequence>
+		<xs:attribute name="Seq">
+			<xs:simpleType>
+				<xs:restriction base="xs:short">
+					<xs:minInclusive value="0"/>
+					<xs:maxInclusive value="3"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="UpdateDate" type="xs:date"/>
+	</xs:complexType>
+	<xs:complexType name="ColorTypeDescAmendType">
+		<xs:sequence minOccurs="0">
+			<xs:element name="ColorCode" type="AmendColorCodeType"/>
+			<xs:element name="TypeCode" type="AmendBagTypeCodeType"/>
+			<xs:element name="Descriptor" type="AmendBagDescType"/>
+		</xs:sequence>
+		<xs:attribute name="Suspended" type="xs:boolean"/>
+		<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+	</xs:complexType>
+	<xs:complexType name="ColorTypeDescType">
+		<xs:annotation>
+			<xs:documentation>Contains color type of the bag</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ColorCode" type="ColorCodeType"/>
+			<xs:element name="TypeCode" type="BagTypeCodeType"/>
+			<xs:element name="Descriptor" type="BagDescType"/>
+		</xs:sequence>
+		<xs:attribute name="Suspended" type="xs:boolean"/>
+	</xs:complexType>
+	<xs:complexType name="ContactInfoAmendType">
+		<xs:sequence>
+			<xs:element name="PermanentAddress" type="WTR_AddressAmendType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PA - Permanent address of the passenger</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TempAddress" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>TA - Temporary address of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Address" type="WTR_AddressAmendType" minOccurs="0"/>
+						<xs:element name="ValidityDate" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>DV - Date till the temp address is valid.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:date">
+										<xs:attribute name="Delete" type="xs:boolean" default="false"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ValidityTime" type="xs:time" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>DV - Time till the temp address is valid.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PermPhones" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PN - Permanent Phone numbers of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Phone" type="PhoneAmendType" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CellPhones" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CP - Cellular phone numbers of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Phone" type="PhoneAmendType" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="TempPhones" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>TP - Temporary phone numbers of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Phone" type="PhoneAmendType" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Emails" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>EA - Email address of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Email" type="StringLength0to58AmendType" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Faxes" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>FX - Fax numbers of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Fax" type="PhoneAmendType" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContactInfoDisplayType">
+		<xs:sequence>
+			<xs:element name="PermanentAddress" type="WTR_AddressDisplayType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PA - Permanent address of the passenger</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TempAddress" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>TA - Temporary address of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Address" type="WTR_AddressDisplayType" minOccurs="0"/>
+						<xs:element name="ValidityDate" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>DV - Date till the temp address is valid.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:date">
+										<xs:attribute name="Delete" type="xs:boolean" default="false"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ValidityTime" type="xs:time" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>DV - Time till the temp address is valid.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PermPhones" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PN - Permanent Phone numbers of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Phone" type="PhoneAmendType" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CellPhones" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CP - Cellular phone numbers of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Phone" type="PhoneDisplayType" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="TempPhones" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>TP - Temporary phone numbers of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Phone" type="PhoneDisplayType" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Emails" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>EA - Email address of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Email" type="StringLength0to58DisplayType" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Faxes" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>FX - Fax numbers of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Fax" type="PhoneDisplayType" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContactInfoClaimsType">
+		<xs:sequence>
+			<xs:element name="PermanentAddress" type="WTR_AddressType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PA, YP, ST, ZP, CO - Permanent address of the passenger</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PermPhones" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PN - Permanent Phone numbers of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Phone" type="StringLength1to20" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CellPhones" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CP - Cellular phone numbers of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Phone" type="StringLength8to20" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Faxes" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>FX - Fax numbers of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Fax" type="StringLength1to20" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BusinessAddress" type="BusinessAddressType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>AC, NC - Company name and Address</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContactInfoClaimsDisplayType">
+		<xs:sequence>
+			<xs:element name="PermanentAddress" type="WTR_AddressDisplayType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PA, YP, ST, ZP, CO - Permanent address of the passenger</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PermPhones" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PN - Permanent Phone numbers of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Phone" type="PhoneDisplayType" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CellPhones" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CP - Cellular phone numbers of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Phone" type="PhoneDisplayType" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Faxes" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>FX - Fax numbers of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Fax" type="PhoneDisplayType" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BusinessAddress" type="BusinessAddressDisplayType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>AC, NC - Company name and Address</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContactInfoType">
+		<xs:sequence>
+			<xs:element name="PermanentAddress" type="WTR_AddressType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PA - Permanent address of the passenger</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TempAddress" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>TA - Temporary address of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Address" type="WTR_AddressType" minOccurs="0"/>
+						<xs:element name="ValidityDate" type="xs:date" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>DV - Date till the temp address is valid.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ValidityTime" type="xs:time" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>DV - Time till the temp address is valid.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PermPhones" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PN - Permanent Phone numbers of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Phone" type="StringLength1to20" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CellPhones" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CP - Cellular phone numbers of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Phone" type="StringLength8to20" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="TempPhones" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>TP - Temporary phone numbers of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Phone" type="StringLength1to20" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Emails" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>EA - Email address of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Email" type="EmailType" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Faxes" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>FX - Fax numbers of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Fax" type="StringLength1to20" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContentsAmendType">
+		<xs:annotation>
+			<xs:documentation>CC - Contents in a bag</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Content" maxOccurs="24">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="ContentType">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="Suspended" type="xs:boolean"/>
+		<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+	</xs:complexType>
+	<xs:complexType name="ContentsType">
+		<xs:annotation>
+			<xs:documentation>CC - Contents in a bag</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Content" type="ContentType" maxOccurs="12"/>
+		</xs:sequence>
+		<xs:attribute name="Suspended" type="xs:boolean"/>
+	</xs:complexType>
+	<xs:complexType name="ContentsDisplayType">
+		<xs:annotation>
+			<xs:documentation>CC - Contents in a bag</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Content" type="ContentType" minOccurs="0" maxOccurs="24"/>
+		</xs:sequence>
+		<xs:attribute name="Suspended" type="xs:boolean"/>
+		<xs:attribute name="Confidential" type="xs:boolean"/>
+	</xs:complexType>
+	<xs:complexType name="ContentType">
+		<xs:annotation>
+			<xs:documentation>Contains category and description. Description can contain upto 90 characters in length</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Category">
+				<xs:simpleType>
+					<xs:union memberTypes="StandardCategoryType AlphaLength1to12"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Descriptions" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Description" type="StringLength1to45" maxOccurs="3"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="CustomerCodeType">
+		<xs:annotation>
+			<xs:documentation>WorldTracer Customer code - Airline or 2-3 numeric handler</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="iata:AirlineType xs:string"/>
+	</xs:simpleType>
+	<xs:complexType name="DamageTypeType">
+		<xs:annotation>
+			<xs:documentation>TD - Type of damage</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="Location" type="DamageLocationType"/>
+		<xs:attribute name="Type" type="iata:IATA_CodeType"/>
+		<xs:attribute name="Amount" type="DamageAmountType"/>
+	</xs:complexType>
+	<xs:complexType name="DateRangeType">
+		<xs:annotation>
+			<xs:documentation>Contians a date range</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="FromDate" type="xs:date"/>
+			<xs:element name="ToDate" type="xs:date" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DelayedBagIDType">
+		<xs:annotation>
+			<xs:documentation>This identifies a Delayed record in the WorldTracer System and the sequence number(s) to associate to the Damaged bag being created.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="RecordReference" type="RecordReferenceType"/>
+			<xs:element name="BagID" maxOccurs="10">
+				<xs:complexType>
+					<xs:attribute name="Seq">
+						<xs:simpleType>
+							<xs:restriction base="xs:short">
+								<xs:minInclusive value="1"/>
+								<xs:maxInclusive value="10"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DeliveryAmendType">
+		<xs:annotation>
+			<xs:documentation>Contians the deatials required for the delivery of the bag</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DeliveryAddress" type="WTR_AddressAmendType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DA - Delivery address required for baggage delivery</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DeliveryWeight" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DW - Number and weight of the bags being delivered to the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to9">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LocalDlvInfo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>LD - Contains local delivery information and special instructions</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DlvInfo" type="StringLength0to58AmendType" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DeliveryService" type="StringLength0to205AmendType" minOccurs="0" maxOccurs="10">
+				<xs:annotation>
+					<xs:documentation>DS - Delivery Service details. Display purpose only</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DeliveryType">
+		<xs:annotation>
+			<xs:documentation>Contains the details required for the delivery of the bag</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DeliveryAddress" type="WTR_AddressType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DA - Delivery address required for baggage delivery</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DeliveryWeight" type="StringLength1to9" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DW - Number and weight of the bags being delivered to the passenger</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LocalDlvInfo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>LD - Contains local delivery information and special instructions</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DlvInfo" type="AddressSeqType" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DeliveryService" type="StringLength0to205" minOccurs="0" maxOccurs="10">
+				<xs:annotation>
+					<xs:documentation>DS - Delivery Service details. Display purpose only</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DeliveryInfo" type="StringLength0to2000" minOccurs="0" maxOccurs="10">
+				<xs:annotation>
+					<xs:documentation>DY - Delivery Information</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DeliveryDisplayType">
+		<xs:annotation>
+			<xs:documentation>Contians the deatials required for the delivery of the bag</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DeliveryAddress" type="WTR_AddressDisplayType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DA - Delivery address required for baggage delivery</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DeliveryWeight" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DW - Number and weight of the bags being delivered to the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to9">
+							<xs:attribute name="Confidential" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LocalDlvInfo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>LD - Contains local delivery information and special instructions</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DlvInfo" type="StringLength0to58DisplayType" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DeliveryService" type="StringLength0to205DisplayType" minOccurs="0" maxOccurs="10">
+				<xs:annotation>
+					<xs:documentation>DS - Delivery Service details. Display purpose only</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DiaryInfoClaimsType">
+		<xs:sequence>
+			<xs:element name="CreateDate" type="xs:dateTime"/>
+			<xs:element name="CloseDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="FileSource" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="2"/>
+						<xs:maxLength value="32"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CustomerSource" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="2"/>
+						<xs:maxLength value="32"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DiaryInfoType">
+		<xs:sequence>
+			<xs:element name="CreateDate" type="xs:dateTime"/>
+			<xs:element name="SuspendDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="TracingDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="CloseDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="ReinstateDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="RematchDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="LZControlDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="RetiredDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="AssociatedRecord" type="RecordIdentifierType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>AR - Associated Record</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CrossReferenceRecords" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>XR - Contians reference to a related records</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="CrossReferenceRecord" type="RecordIdentifierType" maxOccurs="5"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DisposalDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DO - Date the onhand bag is disposed</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ControllingStation" type="iata:StationType" minOccurs="0"/>
+			<xs:element name="TracingFinalized" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>TF - Tracing finalized unsuccessfuly date. GMT date, ignore year and time.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ClaimInvestigationDate" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CI - Date of the Claim Investigation</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DateInventoryReceived" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DI - Date Inventory Received</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TracingExtendedDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="RecordStatus" type="FileStatusType" minOccurs="0"/>
+			<xs:element name="TracingOption" type="TracingOptionType" minOccurs="0"/>
+			<xs:element name="AgentID" type="StringLength1to12" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>AG - Agent Identification</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FileSource" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="2"/>
+						<xs:maxLength value="32"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CustomerSource" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="2"/>
+						<xs:maxLength value="32"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ElectronicMessageConfigType">
+		<xs:choice>
+			<xs:element name="AutomatedMessages">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Triggers">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="FileCreation">
+										<xs:complexType>
+											<xs:attribute name="Proactive" type="xs:boolean" use="required">
+												<xs:annotation>
+													<xs:documentation>File created with AM P</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="Manual" type="xs:boolean" use="required">
+												<xs:annotation>
+													<xs:documentation>File created with AM M</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="FileUpdate">
+										<xs:complexType>
+											<xs:attribute name="BagReceived" type="xs:boolean" use="required">
+												<xs:annotation>
+													<xs:documentation>DR has been updated</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="BagDelivered" type="xs:boolean" use="required">
+												<xs:annotation>
+													<xs:documentation>DD has been updated</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="LocalDelivery" type="xs:boolean" use="required">
+												<xs:annotation>
+													<xs:documentation>LD/DR has been updated</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="BagScheduledForDelivery" type="xs:boolean" use="required">
+												<xs:annotation>
+													<xs:documentation>OF has been updated</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="ConfirmBagDelivered" type="xs:boolean">
+												<xs:annotation>
+													<xs:documentation>OD has been updated</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="Suspend" type="xs:boolean" use="required">
+												<xs:annotation>
+													<xs:documentation>File or bag has been suspended</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="GeneratedMessages">
+										<xs:complexType>
+											<xs:attribute name="FWD" type="xs:boolean" use="required">
+												<xs:annotation>
+													<xs:documentation>FWD in MCH</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="FAH" type="xs:boolean" use="required">
+												<xs:annotation>
+													<xs:documentation>FAH in MCH</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="BDO" type="xs:boolean" use="required">
+												<xs:annotation>
+													<xs:documentation>BDO message has been sent</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="PAXPrompts">
+										<xs:complexType>
+											<xs:attribute name="BICF" type="xs:boolean" use="required">
+												<xs:annotation>
+													<xs:documentation>BICF date has been reached</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="BIF" type="xs:boolean" use="required">
+												<xs:annotation>
+													<xs:documentation>BIF date has been reached</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="BCF" type="xs:boolean" use="required">
+												<xs:annotation>
+													<xs:documentation>TF date has been reached</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="PAXInfo">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="AirlineWebsite">
+										<xs:complexType>
+											<xs:attribute name="Website" type="xs:string"/>
+											<xs:attribute name="Enabled" type="xs:boolean" use="required"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="PAXInternet">
+										<xs:complexType>
+											<xs:attribute name="InternetURL" type="xs:string"/>
+											<xs:attribute name="Enabled" type="xs:boolean" use="required"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="EvaluationURL" minOccurs="0">
+										<xs:complexType>
+											<xs:attribute name="InternetURL" type="xs:string"/>
+											<xs:attribute name="Enabled" type="xs:boolean" use="required"/>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="PremiumCode" minOccurs="0" maxOccurs="15">
+							<xs:complexType>
+								<xs:attribute name="Code" use="required">
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:minLength value="1"/>
+											<xs:maxLength value="10"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ManualMessages">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="MessageText" minOccurs="0" maxOccurs="19">
+							<xs:complexType>
+								<xs:attribute name="Seq" use="required">
+									<xs:simpleType>
+										<xs:restriction base="xs:int">
+											<xs:minInclusive value="1"/>
+											<xs:maxInclusive value="19"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:attribute>
+								<xs:attribute name="Enabled" type="xs:boolean" use="required"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="RecordType" use="required">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="DELAYED"/>
+								<xs:enumeration value="DAMAGED"/>
+								<xs:enumeration value="ON-HAND"/>
+								<xs:enumeration value=""/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+		<xs:attribute name="LastUpdateDate" type="xs:date"/>
+	</xs:complexType>
+	<xs:complexType name="EmptyType">
+		<xs:annotation>
+			<xs:documentation>This is an empty type which can be use to check for existance of a tag</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+	<xs:complexType name="FlightDateOrARNKType">
+		<xs:annotation>
+			<xs:documentation>FD - Contians Flight date or ARNK</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="FlightDate" type="FlightDateType"/>
+			<xs:element name="ARNK" type="ARNK_Type"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="FlightDateType">
+		<xs:sequence>
+			<xs:element name="AirlineCode" type="iata:AirlineType"/>
+			<xs:element name="FlightNumber" type="FlightNumberType"/>
+			<xs:element name="Date" type="xs:date"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FlightOptionalDateOrARNKType">
+		<xs:annotation>
+			<xs:documentation>FD - Contians Flight date or ARNK</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="FlightDate" type="FlightOptionalDateType"/>
+			<xs:element name="ARNK" type="ARNK_Type"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="FlightOptionalDateType">
+		<xs:sequence>
+			<xs:element name="AirlineCode" type="iata:AirlineType"/>
+			<xs:element name="FlightNumber" type="FlightNumberType" minOccurs="0"/>
+			<xs:element name="Date" type="xs:date"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FlightSegmentOrARNK_AmendType">
+		<xs:choice>
+			<xs:element name="FlightSegment" type="FlightSegmentType"/>
+			<xs:element name="ARNK" type="ARNK_SegmentType"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="FlightSegmentOrARNKType">
+		<xs:choice>
+			<xs:element name="FlightSegment" type="FlightSegmentType"/>
+			<xs:element name="ARNK" type="ARNK_SegmentType"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="FlightSegmentType">
+		<xs:annotation>
+			<xs:documentation>FD + RT - Contains Alirline code, Flight, Date and Route for that segment.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="FlightAndDate" type="FlightDateType" minOccurs="0"/>
+			<xs:element name="OriginDestination" type="OriginDestinationType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FlightType">
+		<xs:annotation>
+			<xs:documentation>Contains Flight and Date</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AirlineCode" type="iata:AirlineType"/>
+			<xs:element name="FlightNumber" type="FlightNumberType"/>
+			<xs:element name="Date" type="xs:date"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FoundItemType">
+		<xs:sequence>
+			<xs:element name="RefStationAirline" type="StationAirlineHandlerType" minOccurs="0"/>
+			<xs:element name="Id" type="xs:int" minOccurs="0"/>
+			<xs:element name="Content" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Category" type="StringLength1to58">
+							<xs:annotation>
+								<xs:documentation>FP - General description of found property </xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Description" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="TextLine" type="StringLength0to58AmendFPType" maxOccurs="2"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DateFound" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DF - Date found, mandatory for RFP</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DateRegistered" type="iata:DateOrDateTimeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DT - Valid only for AFP</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SupplimentalInfo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SI - Supplimental info</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="TextLine" type="StringLength0to58AmendFPType" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DisposalDate" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DO - Applicable only for update found property</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to30">
+							<xs:attribute name="Date" type="xs:date" use="required"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AdditionalInfo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>AI - Additional Info</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="TextLine" type="StringLength0to58AmendFPType" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="StorageLocation" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SL - Storage Location</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to32">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AgentID" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Valid only for DFP</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="CreatedBy" type="StringLength1to12"/>
+					<xs:attribute name="UpdatedBy" type="StringLength1to12"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LastUpdateDate" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Valid only for DFP</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FrequentFlyerType">
+		<xs:annotation>
+			<xs:documentation>Contains Frequent Flyer airline and number</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AirlineCode" type="iata:AirlineType" minOccurs="0"/>
+			<xs:element name="FrequentFlyerID" type="AlphaNumericStringLength1to25"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="HandledPageType">
+		<xs:sequence>
+			<xs:element name="Handling" minOccurs="0" maxOccurs="14">
+				<xs:complexType>
+					<xs:attributeGroup ref="HandlingAgreementAttributes"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="UpdateDate" type="xs:date"/>
+	</xs:complexType>
+	<xs:complexType name="HandledStationType">
+		<xs:annotation>
+			<xs:documentation>Contains Station Code and Hanlder code</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="Station" type="iata:StationType"/>
+		<xs:attribute name="Handler" type="CustomerCodeType"/>
+	</xs:complexType>
+	<xs:attributeGroup name="HandlingAgreementAttributes">
+		<xs:attribute name="Seq">
+			<xs:simpleType>
+				<xs:restriction base="xs:short">
+					<xs:minInclusive value="1"/>
+					<xs:maxInclusive value="14"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="Airline" type="iata:AirlineType"/>
+		<xs:attribute name="Trace">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="WT"/>
+					<xs:enumeration value="NT"/>
+					<xs:enumeration value="NP"/>
+					<xs:enumeration value="HC"/>
+					<xs:enumeration value="IA"/>
+					<xs:enumeration value="RO"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="TTY" type="iata:TTY_Address"/>
+		<xs:attribute name="MRI" type="xs:boolean"/>
+		<xs:attribute name="MRS" type="xs:boolean"/>
+		<xs:attribute name="MSL" type="xs:boolean"/>
+		<xs:attribute name="RefMandatories" type="xs:boolean"/>
+		<xs:attribute name="PasswordMandatories" type="xs:boolean"/>
+		<xs:attribute name="Email" type="xs:boolean"/>
+		<xs:attribute name="Reports" type="xs:boolean"/>
+	</xs:attributeGroup>
+	<xs:complexType name="InboxAddressType">
+		<xs:annotation>
+			<xs:documentation>XF - Inbox Address(Action file address)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="StationAirline" type="StationAirlineHandlerType"/>
+			<xs:element name="Area" type="InboxAreaType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:attributeGroup name="InboxAreaAddressAttributes">
+		<xs:attribute name="StationCode" type="iata:StationType" use="required"/>
+		<xs:attribute name="AirlineCode" type="CustomerCodeType" use="required"/>
+		<xs:attributeGroup ref="InboxAreaNameAttributes"/>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="InboxAreaNameAttributes">
+		<xs:attribute name="AreaType" type="InboxAreaType" use="required"/>
+		<xs:attribute name="Seq" use="optional">
+			<xs:simpleType>
+				<xs:union>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="1" fixed="false"/>
+							<xs:maxInclusive value="10"/>
+						</xs:restriction>
+					</xs:simpleType>
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:pattern value="[A-E]"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:union>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:complexType name="InboxMessageSearchType">
+		<xs:sequence minOccurs="0">
+			<xs:element name="MessageRange" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Messages to read:
+
+If only one Range specified:
+  1. Only Start - Returns 100 messages starting "Start"
+  2. Start and End - Returns messgaes between "Start" to "End", range cannot be more than 10.
+  3. To read a single message, use "Start"="End"
+
+When range is more then one:
+  1. If only Start in the range - Message with id "Start" is returned. Examples, 1/3-20/22/25.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Range" maxOccurs="10">
+							<xs:complexType>
+								<xs:attribute name="Start" type="xs:int" use="required"/>
+								<xs:attribute name="End" type="xs:int"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DelayedBagRef" type="RecordReferenceType" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="InboxAreaAddressAttributes"/>
+		<xs:attribute name="Day">
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="1"/>
+					<xs:maxInclusive value="7"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="InitialType">
+		<xs:simpleContent>
+			<xs:extension base="AlphaLength1to4"/>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="ItemRangeType">
+		<xs:sequence>
+			<xs:element name="FromItem" type="xs:int"/>
+			<xs:element name="ToItem" type="xs:int" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LicenseNumberType">
+		<xs:attribute name="TagType" type="NumericLength1" use="optional"/>
+		<xs:attribute name="IssuerCode" type="IssuerCodeType" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="LostItemType">
+		<xs:sequence>
+			<xs:element name="RefStationAirline" type="StationAirlineHandlerType" minOccurs="0"/>
+			<xs:element name="Id" type="xs:int" minOccurs="0"/>
+			<xs:element name="Content" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Category" type="StringLength1to58">
+							<xs:annotation>
+								<xs:documentation>LP - General description of lost property </xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Description" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="TextLine" type="StringLength0to58AmendFPType" maxOccurs="2"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DateMissing" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DM - Date missing, mandatory for RLP</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DateRegistered" type="iata:DateOrDateTimeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DT - Valid only for ALP</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SupplimentalInfo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SI - Supplimental info</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="TextLine" type="StringLength0to58AmendFPType" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AdditionalInfo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>AI - Additional Info</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="TextLine" type="StringLength0to58AmendFPType" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AgentID" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Valid only for DLP</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="CreatedBy" type="StringLength1to12"/>
+					<xs:attribute name="UpdatedBy" type="StringLength1to12"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LastUpdateDate" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Valid only for DLP</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NameType">
+		<xs:simpleContent>
+			<xs:extension base="AlphaLength2to16"/>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="OptionalDateType">
+		<xs:annotation>
+			<xs:documentation>Contians 2 digit day 2 digit month Month and 4 digit year with day and month optional</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="Day" use="optional">
+			<xs:simpleType>
+				<xs:restriction base="xs:positiveInteger">
+					<xs:minInclusive value="1"/>
+					<xs:maxInclusive value="31"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="Month" use="optional">
+			<xs:simpleType>
+				<xs:restriction base="xs:positiveInteger">
+					<xs:minInclusive value="1"/>
+					<xs:maxInclusive value="12"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="Year" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:positiveInteger">
+					<xs:minInclusive value="1900"/>
+					<xs:maxInclusive value="9999"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="OriginDestinationType">
+		<xs:sequence>
+			<xs:element name="Origin" type="iata:StationType"/>
+			<xs:element name="Destination" type="iata:StationType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PassengerAmendType">
+		<xs:sequence>
+			<xs:element name="Names" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>NM - Passnger surnames and other names</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Name" maxOccurs="3">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="AlphaLength0to16">
+										<xs:attributeGroup ref="AmendGroup"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Initials" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>IT - Initials on the bag or passengers full initials</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Intial" maxOccurs="3">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="AlphaLength0to4">
+										<xs:attributeGroup ref="AmendGroup"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Title" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PT - Contians passenger title Mr/Mrs/Ms/Sir/etc and first fiven name</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to25">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="GivenNames" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>GN - Passnger given first names</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Name" maxOccurs="3">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="AlphaLength0to16">
+										<xs:attributeGroup ref="AmendGroup"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ContactInfo" type="ContactInfoAmendType" minOccurs="0"/>
+			<xs:element name="FrequentFlyerID" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>FL - Frequent flyer number or ID assigned to a passenger or reflected on an on-hand bag</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to25">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Language" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>LA - Primary language the passenger speaks</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to25">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="TicketNumber" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>TK - Passengers flight ticket number</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to58">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PNR" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PR - Passenger name record</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to12">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="NoOfPassengers" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>NP - Description of number of passengers travelling together</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to58">
+							<xs:attribute name="Delete" type="xs:boolean" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AutoMsgOption" type="AutomatedMessageOptionType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>AM - Option to indicate if the passenger wants to recieve a message</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PassportInfo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PP - Full passport information of the passenger.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to58">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PassengerDisplayType">
+		<xs:sequence>
+			<xs:element name="Names" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>NM - Passnger surnames and other names</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Name" maxOccurs="3">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="AlphaLength0to16">
+										<xs:attributeGroup ref="DisplayGroup"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Initials" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>IT - Initials on the bag or passengers full initials</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Intial" maxOccurs="3">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="AlphaLength0to4">
+										<xs:attributeGroup ref="DisplayGroup"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Title" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PT - Contians passenger title Mr/Mrs/Ms/Sir/etc and first fiven name</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to25">
+							<xs:attribute name="Confidential" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="GivenNames" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>GN - Passnger given first names</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Name" maxOccurs="3">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="AlphaLength0to16">
+										<xs:attributeGroup ref="DisplayGroup"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ContactInfo" type="ContactInfoDisplayType" minOccurs="0"/>
+			<xs:element name="FrequentFlyerID" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>FL - Frequent flyer number or ID assigned to a passenger or reflected on an on-hand bag</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to25">
+							<xs:attribute name="Confidential" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Language" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>LA - Primary language the passenger speaks</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to25">
+							<xs:attribute name="Confidential" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="TicketNumber" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>TK - Passengers flight ticket number</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to58">
+							<xs:attribute name="Confidential" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PNR" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PR - Passenger name record</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to12">
+							<xs:attribute name="Confidential" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="NoOfPassengers" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>NP - Description of number of passengers travelling together</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to58">
+							<xs:attribute name="Confidential" type="xs:boolean" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AutoMsgOption" type="AutomatedMessageOptionDisplayType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>AM - Option to indicate if the passenger wants to recieve a message</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PassportInfo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PP - Full passport information of the passenger.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to58">
+							<xs:attribute name="Confidential" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PassengerItineraryAmendType">
+		<xs:annotation>
+			<xs:documentation>Contains details of a passenger like name, address etc</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="PassengerAmendType">
+				<xs:sequence>
+					<xs:element name="Itinerary" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>FD/RT - Flights, dates and routes the passenger travelled</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="FlightSegments" minOccurs="0">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="Flight" type="FlightSegmentOrARNK_AmendType" maxOccurs="5">
+												<xs:annotation>
+													<xs:documentation>FD/BR/FO/NF - Flight Segment type or ARNK</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="AdditionalRoutes" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>RT - Additional route stations</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="Route" type="iata:StationType" maxOccurs="13"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Status" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>PS - Class of service flown by the passenger</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:simpleContent>
+								<xs:extension base="StringLength0to58">
+									<xs:attribute name="Delete" type="xs:boolean" default="false"/>
+								</xs:extension>
+							</xs:simpleContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="PooledTktNumber" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>PB - Pooled ticket number</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:simpleContent>
+								<xs:extension base="AlphaNumericStringLength0to15">
+									<xs:attribute name="Delete" type="xs:boolean" default="false"/>
+								</xs:extension>
+							</xs:simpleContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="FareBasis" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>PF - The fare basis as shown on the passengers flight ticket</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:simpleContent>
+								<xs:extension base="AlphaNumericStringLength0to7">
+									<xs:attribute name="Delete" type="xs:boolean" default="false"/>
+								</xs:extension>
+							</xs:simpleContent>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PassengerItineraryClaimsType">
+		<xs:annotation>
+			<xs:documentation>Contains details of a passenger like name, address etc</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Names" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>NM - Passnger surnames and other names</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Name" type="AlphaLength2to16" maxOccurs="3"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Initials" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>IT - Initials on the bag or passengers full initials</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Initial" type="InitialType" maxOccurs="3"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Title" type="StringLength1to25" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PT - Contians passenger title Mr/Mrs/Ms/Sir/etc and first fiven name</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GivenNames" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>GN - Passnger Given first names</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Name" type="AlphaLength2to16" maxOccurs="3"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Itinerary">
+				<xs:annotation>
+					<xs:documentation>FD/RT - Flights, dates and routes the passenger travelled</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="FlightSegments">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="FlightSegmentOrARNK" type="FlightSegmentOrARNKType" maxOccurs="5">
+										<xs:annotation>
+											<xs:documentation>FD/BR/FO/NF - Flight Segment type or ARNK</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="AdditionalRoutes" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>RT - Additional route stations</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Route" type="iata:StationType" maxOccurs="13"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ContactInfo" type="ContactInfoClaimsType" minOccurs="0"/>
+			<xs:element name="FrequentFlyerID" type="StringLength1to25" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>FL - Frequent flyer number or ID assigned to a passenger or reflected on an on-hand bag</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PNR" type="StringLength0to12" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PR - Passenger name record</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BirthDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>BO - Date of Birth</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SocialSecurityNumber" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SS - Social security number</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="[a-zA-Z0-9]{1,20}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PassportInfo" type="StringLength1to58" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PP - Full passport information of the passenger.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BankName" type="StringLength2to58" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>NB - Name of bank</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BankAccountNumber" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>BA - Bank account number</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="GroupIndicator" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>GP - Group indicator</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AutoMsgOption" type="AutomatedMessageOptionType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>AM - Option to indicate if the passenger wants to recieve a message</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PassengerItineraryClaimsDisplayType">
+		<xs:annotation>
+			<xs:documentation>Contains details of a passenger like name, address etc</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Names" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>NM - Passnger surnames and other names</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Name" maxOccurs="3">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="AlphaLength0to16">
+										<xs:attributeGroup ref="DisplayGroup"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Initials" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>IT - Initials on the bag or passengers full initials</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Initial" maxOccurs="3">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="AlphaLength0to4">
+										<xs:attributeGroup ref="DisplayGroup"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Title" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PT - Contians passenger title Mr/Mrs/Ms/Sir/etc and first fiven name</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to25">
+							<xs:attribute name="Confidential" type="xs:boolean"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="GivenNames" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>GN - Passnger Given first names</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Name" maxOccurs="3">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="AlphaLength0to16">
+										<xs:attributeGroup ref="DisplayGroup"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Itinerary">
+				<xs:annotation>
+					<xs:documentation>FD/RT - Flights, dates and routes the passenger travelled</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="FlightSegments" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="FlightSegmentOrARNK" type="FlightSegmentOrARNKType" maxOccurs="5">
+										<xs:annotation>
+											<xs:documentation>FD/BR/FO/NF - Flight Segment type or ARNK</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="AdditionalRoutes" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>RT - Additional route stations</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Route" type="iata:StationType" maxOccurs="13"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Confidential" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ContactInfo" type="ContactInfoClaimsDisplayType" minOccurs="0"/>
+			<xs:element name="FrequentFlyerID" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>FL - Frequent flyer number or ID assigned to a passenger or reflected on an on-hand bag</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to25">
+							<xs:attribute name="Confidential" type="xs:boolean"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PNR" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PR - Passenger name record</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to12">
+							<xs:attribute name="Confidential" type="xs:boolean"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BirthDate" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>BO - Date of Birth</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:date">
+							<xs:attribute name="Confidential" type="xs:boolean"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SocialSecurityNumber" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SS - Social security number</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="Confidential" type="xs:boolean"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PassportInfo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PP - Full passport information of the passenger.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to58">
+							<xs:attribute name="Confidential" type="xs:boolean"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BankName" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>NB - Name of bank</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to58">
+							<xs:attribute name="Confidential" type="xs:boolean"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BankAccountNumber" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>BA - Bank account number</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="Confidential" type="xs:boolean"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="GroupIndicator" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>GP - Group indicator</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AutoMsgOption" type="AutomatedMessageOptionDisplayType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>AM - Option to indicate if the passenger wants to recieve a message</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PassengerItineraryType">
+		<xs:annotation>
+			<xs:documentation>Contains details of a passenger like name, address etc</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="PassengerType">
+				<xs:sequence>
+					<xs:element name="Itinerary" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>FD/RT - Flights, dates and routes the passenger travelled</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="FlightSegments">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="FlightSegmentOrARNK" type="FlightSegmentOrARNKType" maxOccurs="5">
+												<xs:annotation>
+													<xs:documentation>FD/BR/FO/NF - Flight Segment type or ARNK</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="AdditionalRoutes" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>RT - Additional route stations</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="Route" type="iata:StationType" maxOccurs="13"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Status" type="StringLength1to58" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>PS - Class of service flown by the passenger</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="PooledTktNumber" type="AlphaNumericStringLength1to15" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>PB - Pooled ticket number</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="FareBasis" type="AlphaNumericStringLength1to7" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>PF - The fare basis as shown on the passengers flight ticket</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PassengerItineraryDisplayType">
+		<xs:annotation>
+			<xs:documentation>Contains details of a passenger like name, address etc</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="PassengerDisplayType">
+				<xs:sequence>
+					<xs:element name="Itinerary" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>FD/RT - Flights, dates and routes the passenger travelled</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="FlightSegments" minOccurs="0">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="Flight" type="FlightSegmentOrARNK_AmendType" maxOccurs="5">
+												<xs:annotation>
+													<xs:documentation>FD/BR/FO/NF - Flight Segment type or ARNK</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="AdditionalRoutes" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>RT - Additional route stations</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="Route" type="iata:StationType" maxOccurs="13"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="Confidential" minOccurs="0"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Status" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>PS - Class of service flown by the passenger</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:simpleContent>
+								<xs:extension base="StringLength0to58">
+									<xs:attribute name="Confidential" type="xs:boolean" default="false"/>
+								</xs:extension>
+							</xs:simpleContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="PooledTktNumber" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>PB - Pooled ticket number</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:simpleContent>
+								<xs:extension base="AlphaNumericStringLength0to15">
+									<xs:attribute name="Confidential" type="xs:boolean" default="false"/>
+								</xs:extension>
+							</xs:simpleContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="FareBasis" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>PF - The fare basis as shown on the passengers flight ticket</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:simpleContent>
+								<xs:extension base="AlphaNumericStringLength0to7">
+									<xs:attribute name="Confidential" type="xs:boolean" default="false"/>
+								</xs:extension>
+							</xs:simpleContent>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PassengerPaymentAmendType">
+		<xs:annotation>
+			<xs:documentation>Payment paid to passenger</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0">
+			<xs:element name="Type" type="CostType"/>
+			<xs:element name="Amount" type="AmountType"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="OptionalSeqAmendGroup"/>
+	</xs:complexType>
+	<xs:complexType name="PassengerPaymentType">
+		<xs:annotation>
+			<xs:documentation>Payment paid to passenger</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Type" type="CostType"/>
+			<xs:element name="Amount" type="AmountType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PassengerPaymentDisplayType">
+		<xs:annotation>
+			<xs:documentation>Payment paid to passenger</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0">
+			<xs:element name="Type" type="CostType"/>
+			<xs:element name="Amount" type="AmountType" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="DisplayGroup"/>
+	</xs:complexType>
+	<xs:complexType name="PassengersBoardedType">
+		<xs:sequence>
+			<xs:element name="StationInput" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:attribute name="Station" type="iata:StationType"/>
+					<xs:attribute name="Total" type="xs:int"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="Date" type="xs:date" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="PassengerType">
+		<xs:sequence>
+			<xs:element name="Names" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>NM - Passnger surnames and other names</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Name" type="AlphaLength2to16" maxOccurs="3"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Initials" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>IT - Initials on the bag or passengers full initials</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Intial" type="InitialType" maxOccurs="3"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Title" type="StringLength1to25" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PT - Contians passenger title Mr/Mrs/Ms/Sir/etc and first fiven name</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GivenNames" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>GN - Passnger given first names</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Name" type="AlphaLength2to16" maxOccurs="3"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ContactInfo" type="ContactInfoType" minOccurs="0"/>
+			<xs:element name="FrequentFlyerID" type="StringLength1to25" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>FL - Frequent flyer number or ID assigned to a passenger or reflected on an on-hand bag</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Language" type="StringLength1to25" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>LA - Primary language the passenger speaks</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TicketNumber" type="StringLength1to58" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>TK - Passengers flight ticket number</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PNR" type="StringLength1to12" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PR - Passenger name record</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NoOfPassengers" type="StringLength1to58" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>NP - Description of number of passengers travelling together</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AutoMsgOption" type="AutomatedMessageOptionType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>AM - Option to indicate if the passenger wants to recieve a message</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PassportInfo" type="StringLength1to58" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PP - Full passport information of the passenger.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PersonNameType">
+		<xs:complexContent>
+			<xs:extension base="iata:PersonNameType">
+				<xs:sequence>
+					<xs:element name="Initials" type="AlphaLength1to4" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PhoneAmendType">
+		<xs:simpleContent>
+			<xs:extension base="StringLength0to20">
+				<xs:attributeGroup ref="AmendGroup"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="PhoneDisplayType">
+		<xs:simpleContent>
+			<xs:extension base="StringLength0to20">
+				<xs:attributeGroup ref="DisplayGroup"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="PropertyType">
+		<xs:annotation>
+			<xs:documentation>This holds description and value pairs. Vlaue can be a single string, or array or strings or a mtrix of strings or another propertie(s)</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="Property" type="PropertyType" maxOccurs="unbounded"/>
+			<xs:element name="Value" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Use this for signle value</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Values" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Use this for
+1. An array of values - eg. Values/Value/Value/.../Values
+2. Matrix of values - eg.
+Values/Value/Value/.../Values
+Values/Value/Value/.../Values
+Values/Value/Value/.../Values</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Value" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+		<xs:attribute name="Desc"/>
+	</xs:complexType>
+	<xs:complexType name="RecordHistoryType">
+		<xs:annotation>
+			<xs:documentation>Contians history about the Worldtracer bag record history</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="History" type="StringLength1to3000" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>History text for the record</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MatchHistory" type="StringLength1to2000" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Match history for the record</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RecordIdentifierAmendType">
+		<xs:annotation>
+			<xs:documentation>This identifies a unique bag record in the WorldTracer System</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0">
+			<xs:element name="RecordType" type="RecordType"/>
+			<xs:element name="RecordReference" type="RecordReferenceType"/>
+		</xs:sequence>
+		<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+	</xs:complexType>
+	<xs:complexType name="RecordIdentifierType">
+		<xs:annotation>
+			<xs:documentation>This identifies a unique bag record in the WorldTracer System</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="RecordType" type="RecordType"/>
+			<xs:element name="RecordReference" type="RecordReferenceType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RecordReferenceType">
+		<xs:annotation>
+			<xs:documentation>This contains unique referece string to identify a particular bag type</xs:documentation>
+		</xs:annotation>
+		<xs:attributeGroup ref="StationAirlineGroup"/>
+		<xs:attribute name="ReferenceNumber">
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:maxInclusive value="999999"/>
+					<xs:minInclusive value="0"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="RegionConfigType">
+		<xs:sequence>
+			<xs:element name="Number">
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="29"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Name" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AbbreviatedName" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="RegionTarget" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:totalDigits value="3" fixed="true"/>
+						<xs:fractionDigits value="2"/>
+						<xs:minInclusive value="1"/>
+						<xs:maxInclusive value="99.9"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TotalTarget" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:minInclusive value="1" fixed="false"/>
+						<xs:maxInclusive value="99.9" fixed="false"/>
+						<xs:totalDigits value="3" fixed="true"/>
+						<xs:fractionDigits value="2" fixed="false"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Stations" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Station" type="iata:StationType" maxOccurs="139"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LastUpdateDate" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Valid only for DSP RGN</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ReportsCommonType">
+		<xs:sequence>
+			<xs:element name="ReportingStation" type="ReportStationAirlineType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>RS - Reporting station and airline</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TeletypeAddresses" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>TX - Teletype address</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="TeletypeAddress" type="iata:TTY_Address" maxOccurs="5"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="InboxAddresses" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>XF - Action file(Inbox) address</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="InboxAddress" maxOccurs="5">
+							<xs:complexType>
+								<xs:attributeGroup ref="InboxAreaAddressAttributes"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Email" type="EmailType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SE - Email</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attributeGroup ref="StationCustomerGroup"/>
+		<xs:attribute name="OutputFormat">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="TEXT"/>
+					<xs:enumeration value="PDF"/>
+					<xs:enumeration value="CSV"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="ReportStationAirlineType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">ReportStationAirlineType extends StationCustomerGroup to provide additional functionality for Reports.</xs:documentation>
+		</xs:annotation>
+		<xs:attributeGroup ref="StationCustomerGroup"/>
+		<xs:attribute name="All" type="xs:boolean" use="optional" default="false">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">All Stations for the input User</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Region" type="NumericLength2" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">Region</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="SearchBagType">
+		<xs:sequence>
+			<xs:element name="CreateDate" type="DateRangeType" minOccurs="0"/>
+			<xs:element name="ControlDate" type="DateRangeType" minOccurs="0"/>
+			<xs:element name="BagTag" type="BagTagType" minOccurs="0"/>
+			<xs:element name="Brand" type="StringLength1to58" minOccurs="0"/>
+			<xs:element name="ColorType" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Color" type="ColorCodeType" minOccurs="0"/>
+						<xs:element name="BagType" type="BagTypeCodeType" minOccurs="0"/>
+						<xs:element name="BagDesc" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="MtrlElement" type="BagMatrlType" minOccurs="0"/>
+									<xs:element name="OtherElement" type="BagElmsType" minOccurs="0" maxOccurs="2"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Contents" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Content" type="SearchContentType" maxOccurs="5"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="UniqueID" type="UniqueIDType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>ID - Unique universal ID on the bag, for example Okoban ID</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SearchNameType">
+		<xs:simpleContent>
+			<xs:extension base="AlphaLength2to16">
+				<xs:attribute name="Exact" type="xs:boolean" use="optional" default="false"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:attributeGroup name="StationAirlineGroup">
+		<xs:attribute name="StationCode" type="iata:StationType" use="optional"/>
+		<xs:attribute name="AirlineCode" type="CustomerCodeType" use="optional"/>
+	</xs:attributeGroup>
+	<xs:complexType name="StationAirlineType">
+		<xs:annotation>
+			<xs:documentation>Contains station airline pair</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="StationCode" type="iata:StationType"/>
+		<xs:attribute name="AirlineCode" type="iata:AirlineType"/>
+	</xs:complexType>
+	<xs:complexType name="StationAirlineHandlerType">
+		<xs:annotation>
+			<xs:documentation>Contains station airline pair</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="StationCode" type="iata:StationType"/>
+		<xs:attribute name="AirlineCode" type="CustomerCodeType"/>
+	</xs:complexType>
+	<xs:attributeGroup name="StationPageAttributes">
+		<xs:attribute name="Seq">
+			<xs:simpleType>
+				<xs:restriction base="xs:short">
+					<xs:minInclusive value="0"/>
+					<xs:maxInclusive value="20"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attributeGroup ref="StationCustomerGroup"/>
+	</xs:attributeGroup>
+	<xs:complexType name="StringLength0to2000AmendType">
+		<xs:simpleContent>
+			<xs:extension base="StringLength0to2000">
+				<xs:attributeGroup ref="AmendGroup"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="StringLength0to2000DisplayType">
+		<xs:simpleContent>
+			<xs:extension base="StringLength0to2000">
+				<xs:attributeGroup ref="DisplayGroup"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="StringLength0to205AmendType">
+		<xs:simpleContent>
+			<xs:extension base="StringLength0to205">
+				<xs:attributeGroup ref="AmendGroup"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="StringLength0to205DisplayType">
+		<xs:simpleContent>
+			<xs:extension base="StringLength0to205">
+				<xs:attributeGroup ref="DisplayGroup"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="StringLength0to58AmendFPType">
+		<xs:simpleContent>
+			<xs:extension base="StringLength0to58">
+				<xs:attributeGroup ref="AmendFPGroup"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="StringLength0to58AmendType">
+		<xs:simpleContent>
+			<xs:extension base="StringLength0to58">
+				<xs:attributeGroup ref="AmendGroup"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="StringLength1to58AmendType">
+		<xs:simpleContent>
+			<xs:extension base="StringLength1to58">
+				<xs:attributeGroup ref="AmendGroup"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="StringLength0to58DisplayType">
+		<xs:simpleContent>
+			<xs:extension base="StringLength0to58">
+				<xs:attributeGroup ref="DisplayGroup"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="Text0to2000SeqType">
+		<xs:simpleContent>
+			<xs:extension base="StringLength0to2000">
+				<xs:attribute name="Seq" use="optional">
+					<xs:annotation>
+						<xs:documentation>Defines sequence number</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="TextSeqType">
+		<xs:simpleContent>
+			<xs:extension base="StringLength0to58">
+				<xs:attribute name="Seq" use="optional">
+					<xs:annotation>
+						<xs:documentation>Defines sequence number</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:attribute name="TransactionTime" type="xs:dateTime"/>
+	<xs:complexType name="WTR_AddressAmendType">
+		<xs:annotation>
+			<xs:documentation>Contains Address fields</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AddressLine" type="StringLength0to58AmendType" minOccurs="0" maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>This element is used by WTR open</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HouseNumber" type="StringLength1to8" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>This element is not currently supported in WTR open</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StreetName" type="StringLength1to58" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>This element is not currently supported in WTR open</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Apartment" type="StringLength1to8" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>This element is not currently supported in WTR open</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="City" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>YP, YT, YD, YB - City</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to27">
+							<xs:attribute name="Delete" type="xs:boolean" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="State" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>ST, TS, SD, BS - State
+Note: WTR accepts state with a length of 2 to 26 or StateCode of length 2 alpha charcters</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="iata:StateProvType">
+							<xs:attribute name="Delete" type="xs:boolean" default="false"/>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PostalCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>ZP, TZ, ZD, BZ - Zip/Postal Code</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to12">
+							<xs:attribute name="Delete" type="xs:boolean" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Country" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CO, TC, ND, BN - Country
+Note: WTR accepts only country name of length upto 30 characters</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="iata:CountryNameType">
+							<xs:attribute name="Delete" type="xs:boolean" default="false"/>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="WTR_AddressType">
+		<xs:annotation>
+			<xs:documentation>Contains Address fields</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AddressLine" type="AddressSeqType" minOccurs="0" maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>This element is used by WTR open</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HouseNumber" type="StringLength1to8" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>This element is not currently supported in WTR open</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StreetName" type="StringLength1to58" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>This element is not currently supported in WTR open</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Apartment" type="StringLength1to8" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>This element is not currently supported in WTR open</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="City" type="StringLength1to27" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>YB, YD, YP, YT - City</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="State" type="iata:StateProvType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>ST, TS, SD, BS - State
+Note: WTR accepts state with a length of 2 to 26 or StateCode of length 2 alpha charcters</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PostalCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>ZP, TZ, ZD, BZ - Zip/Postal Code</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength1to12"/>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Country" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CO, TC, ND, BN - Country
+Note: WTR accepts only country name of length upto 30 characters</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="iata:CountryNameType"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="WTR_AddressDisplayType">
+		<xs:annotation>
+			<xs:documentation>Contains Address fields</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AddressLine" type="StringLength0to58DisplayType" minOccurs="0" maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>This element is used by WTR open</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HouseNumber" type="StringLength1to8" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>This element is not currently supported in WTR open</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StreetName" type="StringLength1to58" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>This element is not currently supported in WTR open</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Apartment" type="StringLength1to8" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>This element is not currently supported in WTR open</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="City" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>YP, YT, YD, YB - City</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to27">
+							<xs:attribute name="Confidential" type="xs:boolean" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="State" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>ST, TS, SD, BS - State
+Note: WTR accepts state with a length of 2 to 26 or StateCode of length 2 alpha charcters</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="iata:StateProvType">
+							<xs:attribute name="Confidential" type="xs:boolean" default="false"/>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PostalCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>ZP, TZ, ZD, BZ - Zip/Postal Code</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to12">
+							<xs:attribute name="Confidential" type="xs:boolean" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Country" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CO, TC, ND, BN - Country
+Note: WTR accepts only country name of length upto 30 characters</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="iata:CountryNameType">
+							<xs:attribute name="Confidential" type="xs:boolean" default="false"/>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="WTR_GenericPageRQType">
+		<xs:annotation>
+			<xs:documentation>Request for reading a page from a multi page transactions like DSB</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<!-- Define other elements required for the specific request -->
+			<xs:element name="POS" type="iata:POS_Type"/>
+			<xs:element name="Page">
+				<xs:complexType>
+					<xs:attributeGroup ref="StationCustomerGroup"/>
+					<xs:attribute name="No" use="required">
+						<xs:simpleType>
+							<xs:restriction base="xs:short">
+								<xs:minInclusive value="1"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AgentID" type="AlphaNumericStringLength1to12">
+				<xs:annotation>
+					<xs:documentation>AG - Agent Identification</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attributeGroup ref="WTR_PayloadAttributes"/>
+	</xs:complexType>
+	<xs:complexType name="WTR_GenericRQType">
+		<xs:sequence>
+			<!-- Define other elements required for the specific request -->
+			<xs:element name="POS" type="iata:POS_Type"/>
+			<xs:element name="AgentID" type="AlphaNumericStringLength1to12">
+				<xs:annotation>
+					<xs:documentation>AG - Agent Identification</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attributeGroup ref="WTR_PayloadAttributes"/>
+	</xs:complexType>
+	<xs:complexType name="USRConfigType">
+		<xs:sequence>
+			<xs:element name="ExchangeRate" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CE -  Currency Indicator and  Exchange rate</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Code" type="AlphaLength3" use="required"/>
+					<xs:attribute name="Rate" use="required">
+						<xs:simpleType>
+							<xs:restriction base="xs:decimal">
+								<xs:totalDigits value="7"/>
+								<xs:maxInclusive value="99999"/>
+								<xs:fractionDigits value="5"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ControllableTarget" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>TG - Controllable Target</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:minInclusive value="1"/>
+						<xs:maxInclusive value="99.9"/>
+						<xs:totalDigits value="4"/>
+						<xs:fractionDigits value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TotalTarget" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>TT - Total Target</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:minInclusive value="1" fixed="false"/>
+						<xs:maxInclusive value="99.9" fixed="false"/>
+						<xs:totalDigits value="4" fixed="true"/>
+						<xs:fractionDigits value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="LastUpdateDate" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Valid only for DSP USR</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RLCConfigType">
+		<xs:sequence>
+			<xs:element name="LossReasons">
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="UserCode" minOccurs="9" maxOccurs="10">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Code" type="xs:string"/>
+									<xs:element name="Text" minOccurs="0" maxOccurs="2">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:maxLength value="58"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ReportCode" minOccurs="9" maxOccurs="10">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Code" type="xs:string"/>
+									<xs:element name="Text" minOccurs="0" maxOccurs="2">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:maxLength value="20"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="QuickDelayedBagRecordType">
+		<xs:annotation>
+			<xs:documentation>Contins a summary of a bag record</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="QuickDelayedBagGroup">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="BagTags">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="BagTag" type="BagTagType" maxOccurs="10"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="BaggageWeight" type="StringLength1to58" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>BW - Baggage Weight</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Passengers" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Names" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>NM - Passnger surnames and other names</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Name" type="AlphaLength2to16" maxOccurs="3"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="FrequentFlyerID" type="StringLength1to25" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>FL - Frequent flyer number or ID assigned to a passenger or reflected on an on-hand bag</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="PNR" type="StringLength0to12" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>PR - Passenger name record</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="NoOfPassengers" type="StringLength1to58" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>NP - Description of number of passengers travelling together</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Itinerary" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>FD/RT - Flights, dates and routes the passenger travelled</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="FlightSegments">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="FlightSegmentOrARNK" type="FlightSegmentOrARNKType" maxOccurs="5">
+													<xs:annotation>
+														<xs:documentation>FD/BR/FO/NF - Flight Segment type or ARNK</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="AdditionalRoutes" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>RT - Additional route stations</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="Route" type="iata:StationType" maxOccurs="13"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="MiscInfo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>FF - Free form text, additional notes from the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="TextLine" type="StringLength0to58" maxOccurs="99">
+							<xs:annotation>
+								<xs:documentation>FF - upto 99 lines of free form text</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:attributeGroup name="WTR_PayloadAttributes">
+		<xs:annotation>
+			<xs:documentation>The WTR_PayloadAttributes defines the standard attributes that appear on the root element.</xs:documentation>
+		</xs:annotation>
+		<xs:attributeGroup ref="iata:IATA_PayloadStdAttributes"/>
+		<xs:attribute name="ModuleID" use="optional" default="WM">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="WM"/>
+					<xs:enumeration value="WT"/>
+					<xs:enumeration value="WI"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="Password" use="optional">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:pattern value="[a-zA-Z0-9]{4}"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:complexType name="HandledEmailType">
+		<xs:sequence>
+			<xs:element name="AirlineCode">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="[A-Z0-9]{2}|[0-9]{3}|[A-Z]{3}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:choice minOccurs="0">
+				<xs:element name="HandledCopy" type="xs:boolean"/>
+				<xs:element name="ReportsOnly" type="xs:boolean"/>
+			</xs:choice>
+			<xs:element name="Email" type="EmailType"/>
+		</xs:sequence>
+		<xs:attribute name="MRI" type="xs:boolean"/>
+		<xs:attribute name="MRS" type="xs:boolean"/>
+		<xs:attribute name="MSL" type="xs:boolean"/>
+		<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+	</xs:complexType>
+	<xs:complexType name="HandledEmailsType">
+		<xs:sequence>
+			<xs:element name="HandledEmail" type="HandledEmailType" minOccurs="0" maxOccurs="5"/>
+		</xs:sequence>
+		<xs:attribute name="UpdateDate" type="xs:date"/>
+	</xs:complexType>
+	<xs:complexType name="DefinedPromptType">
+		<xs:annotation>
+			<xs:documentation>DP - Defined Prompt</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Date" type="xs:dateTime"/>
+			<xs:element name="Text">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="38"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContactInfoClaimsAmendType">
+		<xs:sequence>
+			<xs:element name="PermanentAddress" type="WTR_AddressAmendType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PA, YP, ST, ZP, CO - Permanent address of the passenger</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PermPhones" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PN - Permanent Phone numbers of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Phone" type="PhoneAmendType" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CellPhones" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CP - Cellular phone numbers of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Phone" type="PhoneAmendType" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Faxes" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>FX - Fax numbers of the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Fax" type="PhoneAmendType" maxOccurs="2"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BusinessAddress" type="BusinessAddressAmendType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>AC, NC - Company name and Address</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BusinessAddressAmendType">
+		<xs:complexContent>
+			<xs:extension base="WTR_AddressAmendType">
+				<xs:sequence>
+					<xs:element name="CompanyName" type="StringLength0to58AmendType" minOccurs="0"/>
+					<xs:element name="Suite" type="StringLength1to12" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PassengerItineraryClaimsAmendType">
+		<xs:annotation>
+			<xs:documentation>Contains details of a passenger like name, address etc</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Names" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>NM - Passnger surnames and other names</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Name" maxOccurs="3">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="AlphaLength0to16">
+										<xs:attributeGroup ref="AmendGroup"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Initials" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>IT - Initials on the bag or passengers full initials</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Initial" maxOccurs="3">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="AlphaLength0to4">
+										<xs:attributeGroup ref="AmendGroup"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Title" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PT - Contians passenger title Mr/Mrs/Ms/Sir/etc and first fiven name</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to25">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="GivenNames" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>GN - Passenger Given first names</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Name" maxOccurs="3">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="AlphaLength0to16">
+										<xs:attributeGroup ref="AmendGroup"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Itinerary" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>FD/RT - Flights, dates and routes the passenger travelled</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="FlightSegments" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="FlightSegmentOrARNK" type="FlightSegmentOrARNKType" maxOccurs="5">
+										<xs:annotation>
+											<xs:documentation>FD/BR/FO/NF - Flight Segment type or ARNK</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="AdditionalRoutes" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>RT - Additional route stations</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Route" type="iata:StationType" maxOccurs="13"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ContactInfo" type="ContactInfoClaimsAmendType" minOccurs="0"/>
+			<xs:element name="FrequentFlyerID" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>FL - Frequent flyer number or ID assigned to a passenger or reflected on an on-hand bag</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to25">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PNR" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PR - Passenger name record</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to12">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BirthDate" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>BO - Date of Birth</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:date">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SocialSecurityNumber" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SS - Social security number</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="AlphaNumericStringLength0to20">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PassportInfo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>PP - Full passport information of the passenger.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to58">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BankName" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>NB - Name of bank</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to58">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BankAccountNumber" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>BA - Bank account number</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to20">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="GroupIndicator" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>GP - Group indicator</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:boolean">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="StringLength0to20AmendType">
+		<xs:simpleContent>
+			<xs:extension base="StringLength0to20">
+				<xs:attributeGroup ref="AmendGroup"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="ClaimsInvestigationAmendType">
+		<xs:annotation>
+			<xs:documentation>Contains the claim data</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ClaimAmount" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CA - Contains the passeneger estimated value of the lost or damaged items. Can hava value or unknown</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice minOccurs="0">
+						<xs:element name="Unknown" type="EmptyType"/>
+						<xs:element name="Amount">
+							<xs:complexType>
+								<xs:attributeGroup ref="iata:CurrencyAmountGroup"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+					<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ClaimsReferral" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CM - Claims referral is used to indicate whether the file has been referred to the claims manager</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to2">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CostRemarks" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CR - Contians an explanation of the cost payed to passenger (CS element)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="TextLine" type="StringLength0to58AmendType" maxOccurs="6"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PassengerPayments" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CS - All the costs paid to the passenger</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PassengerPayment" type="PassengerPaymentAmendType" maxOccurs="6"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ClaimsStatus" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SF - Status of file</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StringLength0to1">
+							<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ExcessValue" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>XV - Additional value the claimant declared for thier baggage and contents</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attributeGroup ref="iata:CurrencyAmountGroup"/>
+					<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:attributeGroup name="OptionalSeqAmendGroup">
+		<xs:annotation>
+			<xs:documentation>Defines seuqnce number and if a delete of an elment is required</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="Seq" use="optional">
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="1"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="Delete" type="xs:boolean" use="optional" default="false"/>
+	</xs:attributeGroup>
+	<xs:complexType name="StringLength0to2000OptionalSeqAmendType">
+		<xs:simpleContent>
+			<xs:extension base="StringLength0to2000">
+				<xs:attributeGroup ref="OptionalSeqAmendGroup"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="StringLength0to58OptionalSeqAmendType">
+		<xs:simpleContent>
+			<xs:extension base="StringLength0to58">
+				<xs:attributeGroup ref="OptionalSeqAmendGroup"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:attributeGroup name="StationCustomerGroup">
+		<xs:attribute name="StationCode" type="iata:StationType" use="optional"/>
+		<xs:attribute name="AirlineCode" type="CustomerCodeType" use="optional"/>
+	</xs:attributeGroup>
+	<xs:complexType name="CurrencyConversionType">
+		<xs:sequence>
+			<xs:element name="From">
+				<xs:complexType>
+					<xs:attributeGroup ref="iata:CurrencyAmountGroup"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="To">
+				<xs:complexType>
+					<xs:attributeGroup ref="iata:CurrencyAmountGroup"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FlightSegmentOptionalDateType">
+		<xs:annotation>
+			<xs:documentation>FD + RT - Contains Alirline code, Flight, Date and Route for that segment.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="FlightAndDate" type="FlightOptionalDateType" minOccurs="0"/>
+			<xs:element name="OriginDestination" type="OriginDestinationType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FlightSegmentOptionalDateOrARNKType">
+		<xs:choice>
+			<xs:element name="FlightSegment" type="FlightSegmentOptionalDateType"/>
+			<xs:element name="ARNK" type="ARNK_SegmentType"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="TagNumberRecapType">
+		<xs:annotation>
+			<xs:documentation>Contins a summary of a bag record</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="BagTag" type="BagTagType"/>
+			<xs:element name="DelayedBagRecord" minOccurs="0" maxOccurs="100">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RecordIdentifier" type="RecordIdentifierType"/>
+						<xs:element name="RecordStatus" type="FileStatusType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="OnhandBagRecord" minOccurs="0" maxOccurs="100">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RecordIdentifier" type="RecordIdentifierType"/>
+						<xs:element name="RecordStatus" type="FileStatusType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RushBagRecord" minOccurs="0" maxOccurs="100">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RecordIdentifier" type="RecordIdentifierType"/>
+						<xs:element name="LastRushFlight" type="FlightDateType">
+							<xs:annotation>
+								<xs:documentation>FO/NF - Itenerary used to forward a rush bag to its final destination</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="LastRushDestination" type="StationAirlineType"/>
+						<xs:element name="BagArrivalTime" type="StringLength1to58" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>AT - Scheduled time of arrival of mishandled bag. Applicable only for read operation</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BagEvents" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="EventCode" type="xs:string"/>
+						<xs:element name="EventInfo" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SearchContentType">
+		<xs:annotation>
+			<xs:documentation>Contains category and description. Description can contain upto 90 characters in length</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Category" minOccurs="0">
+				<xs:simpleType>
+					<xs:union memberTypes="StandardCategoryType AlphaLength1to12"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Descriptions" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Description" type="StringLength1to45" maxOccurs="3"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

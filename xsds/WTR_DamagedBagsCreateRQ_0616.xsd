@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- File was originally: xsd/5/dev/client_interfaces/xsd/wtr/WTR_DamagedBagsCreateRQ.xsd -->
+<!-- edited with XMLSpy v2009 sp1 (http://www.altova.com) by Sita (Sita Inc Ireland) --><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://sita.aero/WTR_DamagedBagsCreateRQ/10/0" xmlns:iata="http://www.iata.org/IATA/2007/00" xmlns:common="http://sita.aero/wtr/common/10/0" targetNamespace="http://sita.aero/WTR_DamagedBagsCreateRQ/10/0" elementFormDefault="qualified" version="0.001" id="WTR2009A">
+	<xs:import namespace="http://sita.aero/wtr/common/10/0" schemaLocation="WTR_BagTypes_44BB.xsd"><!-- Originally: WTR_BagTypes.xsd --></xs:import>
+	<xs:import namespace="http://www.iata.org/IATA/2007/00" schemaLocation="IATA_ET_CommonTypes_FA0A.xsd"><!-- Originally: IATA_ET_CommonTypes.xsd --></xs:import>
+	<!-- This is a request to create Damaged bags in the WorldTracer system. Upto 10 realted damaged bags can be registered using this request.-->
+	<xs:element name="WTR_DamagedBagsCreateRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Request for cretaing Damaged bag record in WTR</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<!-- Define other elements required for the specific request -->
+				<xs:element name="POS" type="iata:POS_Type"/>
+				<xs:element name="RefStationAirline" type="common:StationAirlineType"/>
+				<xs:element name="DamagedBagGroup" type="common:DamagedBagGroupType"/>
+				<xs:element name="Passengers" type="common:PassengerItineraryType"/>
+				<xs:element name="CrossReferenceRecords" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>XR - Contains reference to a related records</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CrossReferenceRecord" type="common:RecordIdentifierType" maxOccurs="5"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="HandledAirlineCopyInd" type="common:HandledAirlineCopyIndType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>HC - Indicator to specify if a copy of the request required to be sent to the hendled airline</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="DesignatedLocator" type="common:StringLength4to12" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>DL - Used to record members front end system record locator</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AdditionalInfo" type="common:AdditionalInfoType" minOccurs="0"/>
+				<xs:element name="MessageInfo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>MG - Free from message information of length 2000</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Text" type="common:StringLength1to2000"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Claim" type="common:DamageClaimType" minOccurs="0"/>
+				<xs:element name="TeletypeAddresses" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>TX - Teletype address</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="TeletypeAddress" type="iata:TTY_Address" maxOccurs="10"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AgentID" type="common:StringLength1to12">
+					<xs:annotation>
+						<xs:documentation>AG - Agent Identification</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AssociatedDelayedRecord" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>AR - Associated Record</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="common:DelayedBagIDType"/>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="common:WTR_PayloadAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

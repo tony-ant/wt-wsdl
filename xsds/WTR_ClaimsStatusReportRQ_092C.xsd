@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- File was originally: xsd/91/dev/client_interfaces/xsd/wtr/WTR_ClaimsStatusReportRQ.xsd -->
+<!-- edited with XMLSpy v2014 (x64) (http://www.altova.com) by David McGowan (SITA) --><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://sita.aero/WTR_ClaimsStatusReportRQ/10/0" xmlns:iata="http://www.iata.org/IATA/2007/00" xmlns:common="http://sita.aero/wtr/common/10/0" targetNamespace="http://sita.aero/WTR_ClaimsStatusReportRQ/10/0" elementFormDefault="qualified" version="1.14" id="WTR2009A">
+	<xs:import namespace="http://sita.aero/wtr/common/10/0" schemaLocation="WTR_BagTypes_44BB.xsd"><!-- Originally: WTR_BagTypes.xsd --></xs:import>
+	<xs:import namespace="http://www.iata.org/IATA/2007/00" schemaLocation="IATA_ET_CommonTypes_FA0A.xsd"><!-- Originally: IATA_ET_CommonTypes.xsd --></xs:import>
+	<xs:element name="WTR_ClaimsStatusReportRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">MCA - provides the User with a detailed list of AHL or DPR files that changed status from a lost bag or damage/pilferage report to a claim against the file reference airline.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="iata:POS_Type"/>
+				<xs:element name="ReportOptions">
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="common:ReportsCommonType">
+								<xs:sequence>
+									<xs:element name="Date" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>DT - Date</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:attributeGroup ref="common:DateRangeGroup"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="DateClaimsReceived" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>DC - Date Claims Received</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:attributeGroup ref="common:DateRangeGroup"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="DateClaimsNotified" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>DN - Date Claims Notified</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:attributeGroup ref="common:DateRangeGroup"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="PAXStatus" type="common:StringLength1to58" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>PS - Passenger Status</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="PAXBoardingsRatio" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>PX - Passenger Boardings Ratio</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:int">
+												<xs:totalDigits value="7"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="Route" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>RT - Routing</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="Station" type="iata:StationType" maxOccurs="1"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="SearchAirline" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>SA - Search Airline code</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:attribute name="Code" type="iata:AirlineType"/>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="Summary" type="xs:boolean"/>
+								<xs:attribute name="ClosedFiles" type="xs:boolean"/>
+								<xs:attribute name="AllFiles" type="xs:boolean"/>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="recordType" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="DELAYED"/>
+							<xs:enumeration value="DAMAGED"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AgentID" type="common:StringLength1to12" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>AG - Agent Identification</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="common:WTR_PayloadAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
