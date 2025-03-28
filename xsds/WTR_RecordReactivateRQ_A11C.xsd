@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- File was originally: xsd/21/dev/client_interfaces/xsd/wtr/WTR_RecordReactivateRQ.xsd -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://sita.aero/WTR_RecordReactivateRQ/10/0" xmlns:iata="http://www.iata.org/IATA/2007/00" xmlns:common="http://sita.aero/wtr/common/10/0" targetNamespace="http://sita.aero/WTR_RecordReactivateRQ/10/0" elementFormDefault="qualified" version="0.1" id="WTR2009A">
+	<xs:import namespace="http://sita.aero/wtr/common/10/0" schemaLocation="WTR_BagTypes_44BB.xsd"><!-- Originally: WTR_BagTypes.xsd --></xs:import>
+	<xs:import namespace="http://www.iata.org/IATA/2007/00" schemaLocation="IATA_ET_CommonTypes_FA0A.xsd"><!-- Originally: IATA_ET_CommonTypes.xsd --></xs:import>
+	<xs:element name="WTR_RecordReactivateRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Request to reactive (RAW/ROW) a non tracing delayed or onhand bag record in WTR tracing</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<!-- Define other elements required for the specific request -->
+				<xs:element name="POS" type="iata:POS_Type"/>
+				<xs:element name="RecordID" type="common:RecordIdentifierType"/>
+				<xs:element name="DeliverMatchMessage" type="common:EmptyType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Existance of this empty tag - Deliver all match messages to the airlines head quarters. Apllies only to RAW.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AgentID" type="common:StringLength1to12">
+					<xs:annotation>
+						<xs:documentation>AG - Agent Identification</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="common:WTR_PayloadAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

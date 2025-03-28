@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- File was originally: xsd/19/dev/client_interfaces/xsd/wtr/WTR_LostPropertyEraseRQ.xsd -->
+<!-- edited with XMLSpy v2017 rel. 3 sp1 (x64) (http://www.altova.com) by David McGowan (SITA) --><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://sita.aero/WTR_LostPropertyEraseRQ/10/0" xmlns:iata="http://www.iata.org/IATA/2007/00" xmlns:common="http://sita.aero/wtr/common/10/0" targetNamespace="http://sita.aero/WTR_LostPropertyEraseRQ/10/0" elementFormDefault="qualified" version="1.15" id="WTR2009A">
+	<xs:import namespace="http://sita.aero/wtr/common/10/0" schemaLocation="WTR_CommonTypes_8D29.xsd"><!-- Originally: WTR_CommonTypes.xsd --></xs:import>
+	<xs:import namespace="http://www.iata.org/IATA/2007/00" schemaLocation="IATA_CommonTypes_D729.xsd"><!-- Originally: IATA_CommonTypes.xsd --></xs:import>
+	<xs:element name="WTR_LostPropertyEraseRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">This is a request for erasing registered lost properties in WTR</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="iata:POS_Type"/>
+				<xs:element name="RefStationAirline" type="common:StationAirlineHandlerType"/>
+				<xs:element name="Items" maxOccurs="10">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Date" type="xs:date"/>
+							<xs:element name="ItemRange" type="common:ItemRangeType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AgentID" type="common:StringLength1to12">
+					<xs:annotation>
+						<xs:documentation>AG - Agent Identification</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="common:WTR_PayloadAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
