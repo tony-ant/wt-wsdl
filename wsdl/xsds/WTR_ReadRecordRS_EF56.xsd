@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- File was originally: xsd/3/dev/client_interfaces/xsd/wtr/WTR_ReadRecordRS.xsd -->
+<!-- edited with XMLSpy v2009 sp1 (http://www.altova.com) by Aodh Curran (Sita Inc Ireland) --><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:iata="http://www.iata.org/IATA/2007/00" xmlns="http://sita.aero/WTR_ReadRecordRS/10/0" xmlns:ns4="http://sita.aero/WTR_OnhandBagRecReadRS/10/0" xmlns:ns1="http://sita.aero/WTR_RushBagRecReadRS/10/0" xmlns:ns2="http://sita.aero/WTR_DelayedBagRecReadRS/10/0" xmlns:ns3="http://sita.aero/WTR_DamagedBagRecReadRS/10/0" xmlns:ns5="http://sita.aero/WTR_ReadHistoryRS/10/0" targetNamespace="http://sita.aero/WTR_ReadRecordRS/10/0" elementFormDefault="qualified" version="0.1" id="WTR2009A">
+	<xs:import namespace="http://sita.aero/WTR_DamagedBagRecReadRS/10/0" schemaLocation="WTR_DamagedBagRecReadRS_BA8C.xsd"><!-- Originally: WTR_DamagedBagRecReadRS.xsd --></xs:import>
+	<xs:import namespace="http://www.iata.org/IATA/2007/00" schemaLocation="IATA_CommonTypes_D729.xsd"><!-- Originally: IATA_CommonTypes.xsd --></xs:import>
+	<xs:import namespace="http://sita.aero/WTR_DelayedBagRecReadRS/10/0" schemaLocation="WTR_DelayedBagRecReadRS_61CC.xsd"><!-- Originally: WTR_DelayedBagRecReadRS.xsd --></xs:import>
+	<xs:import namespace="http://sita.aero/WTR_RushBagRecReadRS/10/0" schemaLocation="WTR_RushBagRecReadRS_A270.xsd"><!-- Originally: WTR_RushBagRecReadRS.xsd --></xs:import>
+	<xs:import namespace="http://sita.aero/WTR_OnhandBagRecReadRS/10/0" schemaLocation="WTR_OnhandBagRecReadRS_AD92.xsd"><!-- Originally: WTR_OnhandBagRecReadRS.xsd --></xs:import>
+	<xs:import namespace="http://sita.aero/WTR_ReadHistoryRS/10/0" schemaLocation="WTR_ReadHistoryRS_5404.xsd"><!-- Originally: WTR_ReadHistoryRS.xsd --></xs:import>
+	<xs:element name="WTR_ReadRecordRS">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Contains results for read record responses</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element ref="ns3:WTR_DamagedBagRecReadRS" minOccurs="0"/>
+					<xs:element ref="ns2:WTR_DelayedBagRecReadRS" minOccurs="0"/>
+					<xs:element ref="ns1:WTR_RushBagRecReadRS" minOccurs="0"/>
+					<xs:element ref="ns4:WTR_OnhandBagRecReadRS" minOccurs="0"/>
+					<xs:element ref="ns5:WTR_ReadHistoryRS" minOccurs="0"/>
+				</xs:sequence>
+				<xs:element name="Errors" type="iata:ErrorsType">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">A collection of errors that occurred during the processing of a message.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		<xs:attribute name="Version" type="xs:decimal" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">For all IATA versioned messages, the version of the message is indicated by a decimal value.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>		</xs:complexType>
+	</xs:element>
+</xs:schema>

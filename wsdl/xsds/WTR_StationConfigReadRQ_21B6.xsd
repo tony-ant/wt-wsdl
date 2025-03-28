@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- File was originally: xsd/68/dev/client_interfaces/xsd/wtr/WTR_StationConfigReadRQ.xsd -->
+<!-- edited with XMLSpy v2014 (x64) (http://www.altova.com) by David McGowan (SITA) --><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://sita.aero/WTR_StationConfigReadRQ/10/0" xmlns:iata="http://www.iata.org/IATA/2007/00" xmlns:common="http://sita.aero/wtr/common/10/0" targetNamespace="http://sita.aero/WTR_StationConfigReadRQ/10/0" elementFormDefault="qualified" version="1.12" id="WTR2009A">
+	<xs:import namespace="http://www.iata.org/IATA/2007/00" schemaLocation="IATA_ET_CommonTypes_FA0A.xsd"><!-- Originally: IATA_ET_CommonTypes.xsd --></xs:import>
+	<xs:import namespace="http://sita.aero/wtr/common/10/0" schemaLocation="WTR_StationTypes_FCC4.xsd"><!-- Originally: WTR_StationTypes.xsd --></xs:import>
+	<xs:element name="WTR_StationConfigReadRQ">
+		<xs:annotation>
+			<xs:documentation>Request to read DSS screen 1</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<!-- Define other elements required for the specific request -->
+				<xs:element name="POS" type="iata:POS_Type"/>
+				<xs:element name="StationAirline">
+					<xs:complexType>
+						<xs:attributeGroup ref="common:StationCustomerGroup"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AgentID" type="common:StringLength1to12">
+					<xs:annotation>
+						<xs:documentation>AG - Agent Identification</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="common:WTR_PayloadAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
