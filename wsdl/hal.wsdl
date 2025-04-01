@@ -240,9 +240,6 @@
     <message name="ResponseHeader">
         <part name="header" element="hal:Conversation"/>
     </message>
-    <message name="WTR_CallCenterReportRQRQ90">
-        <part name="part1" xmlns:ns1="http://sita.aero/WTR_CallCenterReportRQ/10/0" element="ns1:WTR_CallCenterReportRQ"/>
-    </message>
     <message name="WTR_CallCenterReportRQRS90">
         <part name="part1" xmlns:ns1="http://sita.aero/WTR_StatusRS/10/0" element="ns1:WTR_StatusRS"/>
     </message>
