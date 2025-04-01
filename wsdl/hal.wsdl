@@ -16,7 +16,6 @@
             <xsd:import namespace="http://sita.aero/WTR_DelayedBagsRecUpdateRQ/10/0" schemaLocation="xsds/WTR_DelayedBagsRecUpdateRQ_BF02.xsd"/>
             <xsd:import namespace="http://sita.aero/WTR_BagDeliveryConfigReadRQ/10/0" schemaLocation="xsds/WTR_BagDeliveryConfigReadRQ_394B.xsd"/>
             <xsd:import namespace="http://sita.aero/WTR_FaultStationLogReportRQ/10/0" schemaLocation="xsds/WTR_FaultStationLogReportRQ_4832.xsd"/>
-            <xsd:import namespace="http://sita.aero/WTR_CallCenterReportRQ/10/0" schemaLocation="xsds/WTR_CallCenterReportRQ_9446.xsd"/>
             <xsd:import namespace="http://sita.aero/WTR_StationConfigRS/10/0" schemaLocation="xsds/WTR_StationConfigRS_E22C.xsd"/>
             <xsd:import namespace="http://sita.aero/WTR_InboxMessageCountRQ/10/0" schemaLocation="xsds/WTR_InboxMessageCountRQ_BA04.xsd"/>
             <xsd:import namespace="http://sita.aero/WTR_FaultStationCostReportRQ/10/0" schemaLocation="xsds/WTR_FaultStationCostReportRQ_86DD.xsd"/>
